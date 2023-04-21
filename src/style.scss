@@ -2,3 +2,35 @@
 @tailwind components;
 @tailwind utilities;
 
+body,
+html {
+  @apply overflow-hidden;
+}
+
+body {
+  @apply bg-black;
+
+  .main-canvas {
+    @apply fixed w-full h-full outline-none;
+  }
+
+  .loading-bar {
+    @apply absolute top-1/2 w-full h-1 bg-white transform scale-x-0 origin-top-left transition-transform duration-100;
+  }
+
+  .loading-bar.ended {
+    @apply origin-top-right transition-transform duration-150 ease-in-out;
+  }
+
+  .icon-button {
+    @apply w-6 h-6 z-10 fixed cursor-pointer text-white text-2xl select-none flex items-center justify-center;
+
+    &.icon-button--bottom-right {
+      @apply bottom-5 right-5;
+    }
+
+    &.icon-button--top-right {
+      @apply top-5 right-5;
+    }
+  }
+}
