@@ -63,8 +63,8 @@ export default class Resources extends EventEmitter {
           this.loadingBarElement.style.transform = "";
         });
       },
+      // @ts-ignore
       (itemUrl, itemsLoaded, itemsTotal) => {
-        console.log(itemUrl);
         this.loadingBarElement.style.transform = `scaleX(${
           itemsLoaded / itemsTotal
         })`;

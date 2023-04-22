@@ -12,25 +12,21 @@ import sources from "./sources";
 let instance: Experience | null = null;
 
 export default class Experience {
-  public canvas: HTMLCanvasElement;
-  public debug: Debug;
-  public stats: Stats;
-  public sizes: Sizes;
-  public time: Time;
-  public scene: THREE.Scene;
-  public camera: Camera;
-  public resources: Resources;
-  public renderer: Renderer;
-  public world: World;
+  canvas: HTMLCanvasElement;
+  debug: Debug;
+  stats: Stats;
+  sizes: Sizes;
+  time: Time;
+  scene: THREE.Scene;
+  camera: Camera;
+  resources: Resources;
+  renderer: Renderer;
+  world: World;
 
   constructor() {
     if (instance) return instance;
     // eslint-disable-next-line @typescript-eslint/no-this-alias
     instance = this;
-
-    this.canvas =
-      (document.getElementById("experience-canvas") as HTMLCanvasElement) ??
-      document.createElement("canvas");
 
     this.debug = new Debug();
     this.stats = new Stats();
@@ -42,13 +38,23 @@ export default class Experience {
     this.renderer = new Renderer();
     this.world = new World();
 
-    this.sizes.on("resize", () => {
-      this.resize();
-    });
+    this.initializeCanvas();
+    this.registerEventListeners();
+  }
 
-    this.time.on("tick", () => {
-      this.update();
-    });
+  initializeCanvas() {
+    this.canvas =
+      (document.getElementById("experience-canvas") as HTMLCanvasElement) ??
+      document.createElement("canvas");
+    if (!this.canvas) {
+      throw new Error("Could not find or create a canvas element.");
+    }
+    this.canvas = this.canvas as HTMLCanvasElement;
+  }
+
+  registerEventListeners() {
+    this.sizes.on("resize", () => this.resize());
+    this.time.on("tick", () => this.update());
   }
 
   resize(): void {
