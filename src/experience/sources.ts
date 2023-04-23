@@ -1,3 +1,5 @@
+import { Source } from "./utils/ResourcesManager";
+
 export default [
   {
     name: "moonColorTexture",
@@ -19,4 +21,4 @@ export default [
     type: "texture",
     path: "/assets/matcaps/text-matcap.png",
   },
-];
+] as Source[];

@@ -1,42 +1,34 @@
 import * as THREE from "three";
-import Camera from "./Camera";
+
 import Experience from "./Experience";
-import Sizes from "./utils/Sizes";
 
 export default class Renderer {
-  readonly canvas: HTMLCanvasElement;
-  readonly scene: THREE.Scene;
-  private experience: Experience;
-  private sizes: Sizes;
-  private camera: Camera;
-  public instance: THREE.WebGLRenderer;
+  instance: THREE.WebGLRenderer;
 
   constructor() {
-    this.experience = new Experience();
-    this.canvas = this.experience.canvas;
-    this.sizes = this.experience.sizes;
-    this.scene = this.experience.scene;
-    this.camera = this.experience.camera;
+    const { canvas } = new Experience();
 
     this.instance = new THREE.WebGL1Renderer({
-      canvas: this.canvas,
+      canvas: canvas,
       antialias: true,
     });
 
-    this.setInstance();
-  }
-
-  private setInstance(): void {
-    this.instance.setSize(this.sizes.width, this.sizes.height);
-    this.instance.setPixelRatio(this.sizes.pixelRatio);
+    this.resize();
   }
 
   resize(): void {
-    this.instance.setSize(this.sizes.width, this.sizes.height);
-    this.instance.setPixelRatio(this.sizes.pixelRatio);
+    const { viewportManager } = new Experience();
+
+    this.instance.setSize(
+      viewportManager.viewport.size.width,
+      viewportManager.viewport.size.height
+    );
+    this.instance.setPixelRatio(viewportManager.viewport.pixelRatio);
   }
 
   update(): void {
-    this.instance.render(this.scene, this.camera.instance);
+    const { scene, camera } = new Experience();
+
+    this.instance.render(scene, camera.instance);
   }
 }

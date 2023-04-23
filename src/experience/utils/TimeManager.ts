@@ -1,10 +1,10 @@
 import EventEmitter from "./EventEmitter";
 
-export default class Time extends EventEmitter {
+export default class TimeManager extends EventEmitter {
   readonly start: number;
-  private current: number;
-  public elapsed: number;
-  public delta: number;
+  current: number;
+  elapsed: number;
+  delta: number;
 
   constructor() {
     super();
@@ -19,7 +19,7 @@ export default class Time extends EventEmitter {
     });
   }
 
-  tick() {
+  private tick() {
     const currentTime = Date.now();
     this.delta = currentTime - this.current;
     this.current = currentTime;

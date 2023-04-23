@@ -1,25 +1,26 @@
 import * as THREE from "three";
-import Sizes from "./utils/Sizes";
-import Time from "./utils/Time";
+
 import Camera from "./Camera";
 import Renderer from "./Renderer";
-import World from "./world/World";
-import Resources from "./utils/Resources";
-import Debug from "./utils/Debug";
-import Stats from "./utils/Stats";
 import sources from "./sources";
+import DebugUi from "./utils/DebugUi";
+import ResourcesManager from "./utils/ResourcesManager";
+import StatsPanel from "./utils/StatsPanel";
+import TimeManager from "./utils/TimeManager";
+import ViewportManager from "./utils/ViewportManager";
+import World from "./world/World";
 
 let instance: Experience | null = null;
 
 export default class Experience {
   canvas: HTMLCanvasElement;
-  debug: Debug;
-  stats: Stats;
-  sizes: Sizes;
-  time: Time;
+  debugUi: DebugUi;
+  statsPanel: StatsPanel;
+  viewportManager: ViewportManager;
+  timeManager: TimeManager;
   scene: THREE.Scene;
   camera: Camera;
-  resources: Resources;
+  resourcesManager: ResourcesManager;
   renderer: Renderer;
   world: World;
 
@@ -28,13 +29,13 @@ export default class Experience {
     // eslint-disable-next-line @typescript-eslint/no-this-alias
     instance = this;
 
-    this.debug = new Debug();
-    this.stats = new Stats();
-    this.sizes = new Sizes();
-    this.time = new Time();
+    this.debugUi = new DebugUi();
+    this.statsPanel = new StatsPanel();
+    this.viewportManager = new ViewportManager();
+    this.timeManager = new TimeManager();
     this.scene = new THREE.Scene();
     this.camera = new Camera();
-    this.resources = new Resources(sources);
+    this.resourcesManager = new ResourcesManager(sources);
     this.renderer = new Renderer();
     this.world = new World();
 
@@ -43,18 +44,15 @@ export default class Experience {
   }
 
   initializeCanvas() {
-    this.canvas =
-      (document.getElementById("experience-canvas") as HTMLCanvasElement) ??
-      document.createElement("canvas");
+    this.canvas = document.getElementById("main-canvas") as HTMLCanvasElement;
     if (!this.canvas) {
       throw new Error("Could not find or create a canvas element.");
     }
-    this.canvas = this.canvas as HTMLCanvasElement;
   }
 
   registerEventListeners() {
-    this.sizes.on("resize", () => this.resize());
-    this.time.on("tick", () => this.update());
+    this.viewportManager.on("resize", () => this.resize());
+    this.timeManager.on("tick", () => this.update());
   }
 
   resize(): void {
@@ -64,11 +62,11 @@ export default class Experience {
   }
 
   update(): void {
-    // if (this.stats.active) this.stats.instance?.begin();
+    if (this.statsPanel.active) this.statsPanel.instance?.begin();
 
     this.camera.update();
     this.renderer.update();
 
-    // if (this.stats.active) this.stats.instance?.end();
+    if (this.statsPanel.active) this.statsPanel.instance?.end();
   }
 }
