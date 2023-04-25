@@ -10,9 +10,8 @@ import TimeManager from "./utils/TimeManager";
 import ViewportManager from "./utils/ViewportManager";
 import World from "./world/World";
 
-let instance: Experience | null = null;
-
 export default class Experience {
+  private static instance: Experience | null = null;
   canvas: HTMLCanvasElement;
   debugUi: DebugUi;
   statsPanel: StatsPanel;
@@ -24,10 +23,11 @@ export default class Experience {
   renderer: Renderer;
   world: World;
 
-  constructor() {
-    if (instance) return instance;
-    // eslint-disable-next-line @typescript-eslint/no-this-alias
-    instance = this;
+  private constructor() {
+    if (Experience.instance) {
+      return Experience.instance;
+    }
+    Experience.instance = this;
 
     this.debugUi = new DebugUi();
     this.statsPanel = new StatsPanel();
@@ -41,6 +41,13 @@ export default class Experience {
 
     this.initializeCanvas();
     this.registerEventListeners();
+  }
+
+  static getInstance(): Experience {
+    if (!Experience.instance) {
+      Experience.instance = new Experience();
+    }
+    return Experience.instance;
   }
 
   initializeCanvas() {

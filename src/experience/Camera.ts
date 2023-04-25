@@ -6,7 +6,7 @@ export default class Camera {
   instance: THREE.PerspectiveCamera;
 
   constructor() {
-    const { viewportManager } = new Experience();
+    const { viewportManager } = Experience.getInstance();
 
     this.instance = new THREE.PerspectiveCamera(
       45,
@@ -20,14 +20,14 @@ export default class Camera {
   }
 
   private setInstance() {
-    const { scene } = new Experience();
+    const { scene } = Experience.getInstance();
 
     this.instance.position.z = 10;
     scene.add(this.instance);
   }
 
   resize() {
-    const { viewportManager } = new Experience();
+    const { viewportManager } = Experience.getInstance();
 
     this.instance.aspect =
       viewportManager.viewport.size.width /
@@ -36,7 +36,7 @@ export default class Camera {
   }
 
   update() {
-    const { timeManager, viewportManager } = new Experience();
+    const { timeManager, viewportManager } = Experience.getInstance();
 
     if (viewportManager.cursor.position.x) {
       this.instance.position.x +=

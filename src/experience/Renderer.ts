@@ -6,7 +6,7 @@ export default class Renderer {
   instance: THREE.WebGLRenderer;
 
   constructor() {
-    const { canvas } = new Experience();
+    const { canvas } = Experience.getInstance();
 
     this.instance = new THREE.WebGL1Renderer({
       canvas: canvas,
@@ -17,7 +17,7 @@ export default class Renderer {
   }
 
   resize(): void {
-    const { viewportManager } = new Experience();
+    const { viewportManager } = Experience.getInstance();
 
     this.instance.setSize(
       viewportManager.viewport.size.width,
@@ -27,7 +27,7 @@ export default class Renderer {
   }
 
   update(): void {
-    const { scene, camera } = new Experience();
+    const { scene, camera } = Experience.getInstance();
 
     this.instance.render(scene, camera.instance);
   }

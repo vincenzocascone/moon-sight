@@ -39,7 +39,7 @@ export default class ResourcesManager extends EventEmitter {
   }
 
   private setOverlay() {
-    const { camera, scene } = new Experience();
+    const { camera, scene } = Experience.getInstance();
     const overlayGeometry = new THREE.PlaneGeometry(100, 100);
     const overlayMaterial = new THREE.MeshBasicMaterial({
       color: 0x000000,
