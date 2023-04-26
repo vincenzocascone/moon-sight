@@ -38,3 +38,6 @@ The Moon Sight application consists of several key components:
 - Check Orientation Device Sensor 
 - Refactor World Classes
 - Improve World Classes
+- Improve loader
+- Improve UI
+- Improve Texts

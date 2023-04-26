@@ -22,6 +22,7 @@ export default class Experience {
   resourcesManager: ResourcesManager;
   renderer: Renderer;
   world: World;
+  raycaster: THREE.Raycaster;
 
   private constructor() {
     if (Experience.instance) {
@@ -37,7 +38,8 @@ export default class Experience {
     this.camera = new Camera();
     this.resourcesManager = new ResourcesManager(sources);
     this.renderer = new Renderer();
-    this.world = new World();
+    this.raycaster = new THREE.Raycaster();
+    this.world = World.getInstance();
 
     this.initializeCanvas();
     this.registerEventListeners();
@@ -65,7 +67,7 @@ export default class Experience {
   resize(): void {
     this.camera.resize();
     this.renderer.resize();
-    // this.world.resize();
+    this.world.resize();
   }
 
   update(): void {
