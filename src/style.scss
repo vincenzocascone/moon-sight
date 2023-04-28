@@ -8,10 +8,10 @@ html {
 }
 
 body {
-  @apply bg-black;
+  @apply bg-black h-full w-full;
 
   #main-canvas {
-    @apply fixed w-full h-full outline-none;
+    @apply w-full h-full outline-none;
   }
 
   #loading-bar {

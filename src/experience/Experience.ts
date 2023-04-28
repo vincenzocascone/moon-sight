@@ -1,4 +1,5 @@
 import * as THREE from "three";
+import { OrbitControls } from "three/examples/jsm/controls/OrbitControls";
 
 import Camera from "./Camera";
 import Renderer from "./Renderer";
@@ -23,6 +24,7 @@ export default class Experience {
   renderer: Renderer;
   world: World;
   raycaster: THREE.Raycaster;
+  controls: OrbitControls;
 
   private constructor() {
     if (Experience.instance) {
@@ -43,6 +45,8 @@ export default class Experience {
 
     this.initializeCanvas();
     this.registerEventListeners();
+
+    this.setOrbitControls();
   }
 
   static getInstance(): Experience {
@@ -52,29 +56,42 @@ export default class Experience {
     return Experience.instance;
   }
 
-  initializeCanvas() {
+  private initializeCanvas() {
     this.canvas = document.getElementById("main-canvas") as HTMLCanvasElement;
     if (!this.canvas) {
       throw new Error("Could not find or create a canvas element.");
     }
   }
 
-  registerEventListeners() {
+  private registerEventListeners() {
     this.viewportManager.on("resize", () => this.resize());
     this.timeManager.on("tick", () => this.update());
   }
 
-  resize(): void {
+  private setOrbitControls() {
+    this.controls = new OrbitControls(
+      this.camera.instance,
+      window.document.body
+    );
+    // this.controls.screenSpacePanning = true;
+    // this.controls.minDistance = 5;
+    // this.controls.maxDistance = 40;
+    // this.controls.target.set(0, 2, 0);
+    this.controls.update();
+  }
+
+  private resize(): void {
     this.camera.resize();
     this.renderer.resize();
     this.world.resize();
   }
 
-  update(): void {
+  private update(): void {
     if (this.statsPanel.active) this.statsPanel.instance?.begin();
 
     this.camera.update();
     this.renderer.update();
+    this.controls.update();
 
     if (this.statsPanel.active) this.statsPanel.instance?.end();
   }

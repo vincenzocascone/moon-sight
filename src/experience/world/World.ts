@@ -23,6 +23,7 @@ export default class World {
     if (World.instance) {
       return World.instance;
     }
+
     World.instance = this;
 
     const { resourcesManager } = Experience.getInstance();

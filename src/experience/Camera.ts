@@ -24,6 +24,7 @@ export default class Camera {
 
     this.instance.position.z = 10;
     scene.add(this.instance);
+    console.log(scene);
   }
 
   resize() {

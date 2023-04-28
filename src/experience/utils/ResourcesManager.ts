@@ -51,6 +51,8 @@ export default class ResourcesManager extends EventEmitter {
   }
 
   private setLoaders() {
+    const { scene } = Experience.getInstance();
+
     const loadingBarElement = document.getElementById(
       "loading-bar"
     ) as HTMLElement;
@@ -64,6 +66,7 @@ export default class ResourcesManager extends EventEmitter {
         gsap.delayedCall(1, () => {
           loadingBarElement.classList.add("ended");
           loadingBarElement.style.transform = "";
+          scene.remove(this._overlay);
         });
       },
       // @ts-ignore

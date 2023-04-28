@@ -9,7 +9,6 @@ export default class PrevDayButton extends EventEmitter {
   geometry: TextGeometry;
   material: THREE.MeshMatcapMaterial;
   mesh: THREE.Mesh;
-  raycaster: THREE.Raycaster;
 
   constructor() {
     super();
@@ -57,7 +56,7 @@ export default class PrevDayButton extends EventEmitter {
   }
 
   setListener(): void {
-    const { camera } = Experience.getInstance();
+    const { camera, raycaster } = Experience.getInstance();
     // Arrow keys
     window.addEventListener("keyup", (event: KeyboardEvent) => {
       if (event.key == "ArrowLeft") {
@@ -70,8 +69,8 @@ export default class PrevDayButton extends EventEmitter {
       const pointer = new THREE.Vector2();
       pointer.x = (event.clientX / window.innerWidth) * 2 - 1;
       pointer.y = -(event.clientY / window.innerHeight) * 2 + 1;
-      this.raycaster.setFromCamera(pointer, camera.instance);
-      if (this.raycaster.intersectObject(this.mesh).length > 0) {
+      raycaster.setFromCamera(pointer, camera.instance);
+      if (raycaster.intersectObject(this.mesh).length > 0) {
         this.prevDay();
       }
     });
