@@ -8,7 +8,7 @@ html {
 }
 
 body {
-  @apply bg-black h-full w-full;
+  @apply bg-red-900 h-full w-full;
 
   #main-canvas {
     @apply w-full h-full outline-none;
