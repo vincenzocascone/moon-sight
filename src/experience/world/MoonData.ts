@@ -1,7 +1,7 @@
 import dayjs from "dayjs";
 
 import Experience from "../Experience";
-import EventEmitter from "../Utils/EventEmitter";
+import EventEmitter from "../utils/EventEmitter";
 
 interface CurrentDate {
   year: number;

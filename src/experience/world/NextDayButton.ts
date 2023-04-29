@@ -3,7 +3,7 @@ import * as THREE from "three";
 import { TextGeometry } from "three/examples/jsm/geometries/TextGeometry.js";
 
 import Experience from "../Experience";
-import EventEmitter from "../Utils/EventEmitter";
+import EventEmitter from "../utils/EventEmitter";
 
 export default class NextDayButton extends EventEmitter {
   geometry: TextGeometry;
