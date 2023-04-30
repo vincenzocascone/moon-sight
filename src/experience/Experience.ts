@@ -35,8 +35,14 @@ export default class Experience {
 
     this.initializeCanvas();
 
-    this.debugUi = new DebugUi();
-    this.statsPanel = new StatsPanel();
+    this.debugUi = new DebugUi({
+      width: config.experience.utils.debugUi.width,
+      devHash: config.experience.utils.debugUi.hash,
+    });
+    this.statsPanel = new StatsPanel({
+      devHash: config.experience.utils.statsPanel.hash,
+      panelType: config.experience.utils.statsPanel.panelType,
+    });
     this.viewportManager = new ViewportManager(
       config.experience.utils.viewportManager.fullscreenButtonId
     );

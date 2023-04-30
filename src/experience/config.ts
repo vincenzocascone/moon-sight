@@ -1,3 +1,5 @@
+import { PanelType } from "./utils/StatsPanel";
+
 export default {
   experience: {
     canvasId: "main-canvas",
@@ -10,6 +12,14 @@ export default {
       },
       resourcesManager: {
         loaderId: "loading-bar",
+      },
+      debugUi: {
+        width: 300,
+        hash: "#dev",
+      },
+      statsPanel: {
+        hash: "#dev",
+        panelType: PanelType.FPS,
       },
     },
   },

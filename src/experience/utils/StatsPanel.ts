@@ -1,7 +1,11 @@
 import StatsJS from "stats.js";
 
+export enum PanelType {
+  FPS = 0,
+  MS = 1,
+}
 interface StatsOptions {
-  panelType?: number;
+  panelType?: PanelType;
   devHash?: string;
 }
 
@@ -11,20 +15,13 @@ export default class StatsPanel {
   instance?: StatsJS;
 
   constructor(options: StatsOptions = {}) {
-    const { panelType = 0, devHash = "#dev" } = options;
+    const { panelType = PanelType.FPS, devHash = "#dev" } = options;
     this.active = window.location.hash === devHash;
 
     if (this.active) {
       this.instance = new StatsJS();
       this.instance.showPanel(panelType);
       document.body.appendChild(this.instance.dom);
-    }
-  }
-
-  destroy(): void {
-    if (this.instance) {
-      document.body.removeChild(this.instance.dom);
-      this.instance = undefined;
     }
   }
 }
