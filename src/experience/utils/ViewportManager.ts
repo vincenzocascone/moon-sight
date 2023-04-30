@@ -3,41 +3,29 @@ import { Vector2 } from "three";
 import EventEmitter from "./EventEmitter";
 
 export default class ViewportManager extends EventEmitter {
-  viewport: {
-    size: Vector2;
-    pixelRatio: number;
-    orientation: Vector2;
-  };
-  cursor: { position: Vector2 };
+  size: Vector2;
+  pixelRatio: number;
+  orientation: Vector2;
+  isVisible: boolean;
 
   constructor() {
     super();
 
-    this.viewport = {
-      size: new Vector2(window.innerWidth, window.innerHeight),
-      pixelRatio: Math.min(window.devicePixelRatio, 2),
-      orientation: new Vector2(),
-    };
+    this.size = new Vector2(window.innerWidth, window.innerHeight);
+    this.pixelRatio = Math.min(window.devicePixelRatio, 2);
+    this.orientation = new Vector2();
+    this.isVisible = true;
 
-    this.cursor = {
-      position: new Vector2(),
-    };
-
-    this.setListeners();
+    this.registerListeners();
   }
 
-  private setListeners() {
+  private registerListeners() {
     window.addEventListener("resize", () => {
-      this.viewport.size.width = window.innerWidth;
-      this.viewport.size.height = window.innerHeight;
-      this.viewport.pixelRatio = Math.min(window.devicePixelRatio, 2);
+      this.size.width = window.innerWidth;
+      this.size.height = window.innerHeight;
+      this.pixelRatio = Math.min(window.devicePixelRatio, 2);
 
       this.trigger("resize");
-    });
-
-    window.addEventListener("mousemove", (event) => {
-      this.cursor.position.x = event.clientX / this.viewport.size.width - 0.5;
-      this.cursor.position.y = event.clientY / this.viewport.size.height - 0.5;
     });
 
     // if ("RelativeOrientationSensor" in window) {
@@ -65,8 +53,8 @@ export default class ViewportManager extends EventEmitter {
     //     }
     //
     //     // Update the orientation values
-    //     this.viewport.orientation.x = (gamma + Math.PI / 2) / Math.PI - 0.5;
-    //     this.viewport.orientation.y = -(beta + Math.PI) / (2 * Math.PI) - 0.5;
+    //     this.orientation.x = (gamma + Math.PI / 2) / Math.PI - 0.5;
+    //     this.orientation.y = -(beta + Math.PI) / (2 * Math.PI) - 0.5;
     //   });
     //
     //   sensor.addEventListener("error", (event: any) => {
@@ -85,6 +73,16 @@ export default class ViewportManager extends EventEmitter {
     document.addEventListener("fullscreenchange", () => {
       this.updateFullscreenButton();
     });
+
+    if (typeof document.hidden !== "undefined") {
+      // Add the event listener for visibility change
+      document.addEventListener(
+        "visibilitychange",
+        this.handleVisibilityChange
+      );
+    } else {
+      console.warn("The browser does not support the Page Visibility API.");
+    }
   }
 
   private toggleFullscreen(): void {
@@ -120,4 +118,12 @@ export default class ViewportManager extends EventEmitter {
         "fullscreen_exit";
     }
   }
+
+  private handleVisibilityChange = (): void => {
+    if (document.hidden) {
+      this.isVisible = false;
+    } else {
+      this.isVisible = true;
+    }
+  };
 }

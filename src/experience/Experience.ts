@@ -3,6 +3,7 @@ import * as THREE from "three";
 import Camera from "./Camera";
 import Renderer from "./Renderer";
 import sources from "./sources";
+import CursorManager from "./utils/CursorManager";
 import DebugUi from "./utils/DebugUi";
 import ResourcesManager from "./utils/ResourcesManager";
 import StatsPanel from "./utils/StatsPanel";
@@ -16,6 +17,7 @@ export default class Experience {
   debugUi: DebugUi;
   statsPanel: StatsPanel;
   viewportManager: ViewportManager;
+  cursorManager: CursorManager;
   timeManager: TimeManager;
   scene: THREE.Scene;
   camera: Camera;
@@ -35,6 +37,7 @@ export default class Experience {
     this.debugUi = new DebugUi();
     this.statsPanel = new StatsPanel();
     this.viewportManager = new ViewportManager();
+    this.cursorManager = new CursorManager();
     this.timeManager = new TimeManager();
     this.scene = new THREE.Scene();
     this.camera = new Camera();
@@ -73,11 +76,13 @@ export default class Experience {
   }
 
   private update(): void {
-    if (this.statsPanel.active) this.statsPanel.instance?.begin();
+    if (this.viewportManager.isVisible) {
+      if (this.statsPanel.active) this.statsPanel.instance?.begin();
 
-    this.camera.update();
-    this.renderer.update();
+      this.camera.update();
+      this.renderer.update();
 
-    if (this.statsPanel.active) this.statsPanel.instance?.end();
+      if (this.statsPanel.active) this.statsPanel.instance?.end();
+    }
   }
 }

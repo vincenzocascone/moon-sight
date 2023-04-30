@@ -77,13 +77,13 @@ export default class PhaseText {
   resize() {
     const { viewportManager } = Experience.getInstance();
 
-    if (viewportManager.viewport.size.width < 420) {
+    if (viewportManager.size.width < 420) {
       this.mesh.scale.set(0.4, 0.4, 0.4);
-    } else if (viewportManager.viewport.size.width < 600) {
+    } else if (viewportManager.size.width < 600) {
       this.mesh.scale.set(0.45, 0.45, 0.45);
-    } else if (viewportManager.viewport.size.width < 780) {
+    } else if (viewportManager.size.width < 780) {
       this.mesh.scale.set(0.6, 0.6, 0.6);
-    } else if (viewportManager.viewport.size.width < 1020) {
+    } else if (viewportManager.size.width < 1020) {
       this.mesh.scale.set(0.75, 0.75, 0.75);
     } else {
       this.mesh.scale.set(1, 1, 1);

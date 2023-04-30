@@ -63,9 +63,9 @@ export default class Moon {
   resize(): void {
     const { viewportManager } = Experience.getInstance();
 
-    if (viewportManager.viewport.size.width < 400) {
+    if (viewportManager.size.width < 400) {
       this.mesh.scale.set(0.8, 0.8, 0.8);
-    } else if (viewportManager.viewport.size.width < 600) {
+    } else if (viewportManager.size.width < 600) {
       this.mesh.scale.set(0.85, 0.85, 0.85);
     } else {
       this.mesh.scale.set(1, 1, 1);
