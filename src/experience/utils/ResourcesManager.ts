@@ -23,12 +23,17 @@ interface Loaders {
 
 export default class ResourcesManager extends EventEmitter {
   private readonly _sources: Source[];
+  private readonly _loaderElement: HTMLElement | null = null;
   private _overlay: THREE.Mesh;
   private _loaders: Loaders;
   readonly items: Record<string, any>;
 
-  constructor(sources: Source[]) {
+  constructor(sources: Source[], loaderElementId?: string) {
     super();
+
+    if (loaderElementId) {
+      this._loaderElement = document.getElementById(loaderElementId);
+    }
 
     this._sources = sources;
     this.items = {};
@@ -53,10 +58,6 @@ export default class ResourcesManager extends EventEmitter {
   private setLoaders() {
     const { scene } = Experience.getInstance();
 
-    const loadingBarElement = document.getElementById(
-      "loading-bar"
-    ) as HTMLElement;
-
     const loadingManager = new THREE.LoadingManager(
       () => {
         this.trigger("ready");
@@ -64,16 +65,20 @@ export default class ResourcesManager extends EventEmitter {
         gsap.to(this._overlay.material, { duration: 3, opacity: 0, delay: 1 });
 
         gsap.delayedCall(1, () => {
-          loadingBarElement.classList.add("ended");
-          loadingBarElement.style.transform = "";
+          if (this._loaderElement) {
+            this._loaderElement.classList.add("ended");
+            this._loaderElement.style.transform = "";
+          }
           scene.remove(this._overlay);
         });
       },
       // @ts-ignore
       (itemUrl, itemsLoaded, itemsTotal) => {
-        loadingBarElement.style.transform = `scaleX(${
-          itemsLoaded / itemsTotal
-        })`;
+        if (this._loaderElement) {
+          this._loaderElement.style.transform = `scaleX(${
+            itemsLoaded / itemsTotal
+          })`;
+        }
       },
       (error) => {
         console.error(error);

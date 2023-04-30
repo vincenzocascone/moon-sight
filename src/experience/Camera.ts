@@ -1,5 +1,6 @@
 import * as THREE from "three";
 
+import config from "./config";
 import Experience from "./Experience";
 
 export default class Camera {
@@ -10,8 +11,7 @@ export default class Camera {
 
     this.instance = new THREE.PerspectiveCamera(
       45,
-      viewportManager.viewport.size.width /
-        viewportManager.viewport.size.height,
+      viewportManager.size.width / viewportManager.size.height,
       0.1,
       100
     );
@@ -30,30 +30,18 @@ export default class Camera {
     const { viewportManager } = Experience.getInstance();
 
     this.instance.aspect =
-      viewportManager.viewport.size.width /
-      viewportManager.viewport.size.height;
+      viewportManager.size.width / viewportManager.size.height;
     this.instance.updateProjectionMatrix();
   }
 
   update() {
-    const { timeManager, viewportManager } = Experience.getInstance();
+    const { timeManager, cursorManager, viewportManager } =
+      Experience.getInstance();
 
-    if (viewportManager.cursor.position.x) {
+    if (!viewportManager.isMobile) {
       this.instance.position.x +=
-        (viewportManager.cursor.position.x - this.instance.position.x) *
-        0.005 *
-        timeManager.delta;
-    } else if (
-      viewportManager.viewport.orientation.x ||
-      viewportManager.viewport.orientation.y
-    ) {
-      this.instance.position.x +=
-        (viewportManager.viewport.orientation.x - this.instance.position.x) *
-        0.01 *
-        timeManager.delta;
-      this.instance.position.y +=
-        (viewportManager.viewport.orientation.y - this.instance.position.y) *
-        0.005 *
+        (cursorManager.position.x - this.instance.position.x) *
+        config.experience.camera.parallaxFactor *
         timeManager.delta;
     }
 

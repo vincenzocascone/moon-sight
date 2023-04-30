@@ -20,10 +20,10 @@ export default class Renderer {
     const { viewportManager } = Experience.getInstance();
 
     this.instance.setSize(
-      viewportManager.viewport.size.width,
-      viewportManager.viewport.size.height
+      viewportManager.size.width,
+      viewportManager.size.height
     );
-    this.instance.setPixelRatio(viewportManager.viewport.pixelRatio);
+    this.instance.setPixelRatio(viewportManager.pixelRatio);
   }
 
   update(): void {

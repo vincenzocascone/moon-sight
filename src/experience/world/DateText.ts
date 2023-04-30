@@ -64,13 +64,13 @@ export default class DateText {
   resize(): void {
     const { viewportManager } = Experience.getInstance();
 
-    if (viewportManager.viewport.size.width < 420) {
+    if (viewportManager.size.width < 420) {
       this.mesh.scale.set(0.5, 0.5, 0.5);
-    } else if (viewportManager.viewport.size.width < 560) {
+    } else if (viewportManager.size.width < 560) {
       this.mesh.scale.set(0.55, 0.55, 0.55);
-    } else if (viewportManager.viewport.size.width < 720) {
+    } else if (viewportManager.size.width < 720) {
       this.mesh.scale.set(0.6, 0.6, 0.6);
-    } else if (viewportManager.viewport.size.width < 880) {
+    } else if (viewportManager.size.width < 880) {
       this.mesh.scale.set(0.8, 0.8, 0.8);
     } else {
       this.mesh.scale.set(1, 1, 1);
