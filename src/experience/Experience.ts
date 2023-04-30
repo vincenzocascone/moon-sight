@@ -1,6 +1,7 @@
 import * as THREE from "three";
 
 import Camera from "./Camera";
+import config from "./config";
 import Renderer from "./Renderer";
 import sources from "./sources";
 import CursorManager from "./utils/CursorManager";
@@ -36,12 +37,17 @@ export default class Experience {
 
     this.debugUi = new DebugUi();
     this.statsPanel = new StatsPanel();
-    this.viewportManager = new ViewportManager();
+    this.viewportManager = new ViewportManager(
+      config.experience.utils.viewportManager.fullscreenButtonId
+    );
     this.cursorManager = new CursorManager();
     this.timeManager = new TimeManager();
     this.scene = new THREE.Scene();
     this.camera = new Camera();
-    this.resourcesManager = new ResourcesManager(sources);
+    this.resourcesManager = new ResourcesManager(
+      sources,
+      config.experience.utils.resourcesManager.loaderId
+    );
     this.renderer = new Renderer();
     this.raycaster = new THREE.Raycaster();
     this.world = World.getInstance();
@@ -57,10 +63,12 @@ export default class Experience {
   }
 
   private initializeCanvas() {
-    this.canvas = document.getElementById("main-canvas") as HTMLCanvasElement;
+    this.canvas = document.getElementById(
+      config.experience.canvasId
+    ) as HTMLCanvasElement;
 
     if (!this.canvas) {
-      throw new Error("Could not find or create a canvas element.");
+      throw new Error("Canvas not found.");
     }
   }
 

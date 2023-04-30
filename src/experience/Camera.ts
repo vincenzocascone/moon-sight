@@ -1,5 +1,6 @@
 import * as THREE from "three";
 
+import config from "./config";
 import Experience from "./Experience";
 
 export default class Camera {
@@ -34,22 +35,13 @@ export default class Camera {
   }
 
   update() {
-    const { timeManager, viewportManager, cursorManager } =
+    const { timeManager, cursorManager, viewportManager } =
       Experience.getInstance();
 
-    if (cursorManager.position.x) {
+    if (!viewportManager.isMobile) {
       this.instance.position.x +=
         (cursorManager.position.x - this.instance.position.x) *
-        0.005 *
-        timeManager.delta;
-    } else if (viewportManager.orientation.x || viewportManager.orientation.y) {
-      this.instance.position.x +=
-        (viewportManager.orientation.x - this.instance.position.x) *
-        0.01 *
-        timeManager.delta;
-      this.instance.position.y +=
-        (viewportManager.orientation.y - this.instance.position.y) *
-        0.005 *
+        config.experience.camera.parallaxFactor *
         timeManager.delta;
     }
 
