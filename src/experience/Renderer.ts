@@ -3,13 +3,13 @@ import * as THREE from "three";
 import Experience from "./Experience";
 
 export default class Renderer {
-  instance: THREE.WebGLRenderer;
+  instance: THREE.WebGL1Renderer;
 
   constructor() {
     const { canvas } = Experience.getInstance();
 
     this.instance = new THREE.WebGL1Renderer({
-      canvas: canvas,
+      canvas,
       antialias: true,
     });
 
@@ -28,7 +28,6 @@ export default class Renderer {
 
   update(): void {
     const { scene, camera } = Experience.getInstance();
-
     this.instance.render(scene, camera.instance);
   }
 }

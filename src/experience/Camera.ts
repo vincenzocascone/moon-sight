@@ -1,6 +1,6 @@
 import * as THREE from "three";
 
-import Experience from "./Experience.js";
+import Experience from "./Experience";
 
 export default class Camera {
   instance: THREE.PerspectiveCamera;
@@ -24,7 +24,6 @@ export default class Camera {
 
     this.instance.position.z = 10;
     scene.add(this.instance);
-    console.log(scene);
   }
 
   resize() {
@@ -57,6 +56,7 @@ export default class Camera {
         0.005 *
         timeManager.delta;
     }
+
     this.instance.lookAt(new THREE.Vector3(0, 0, 0));
   }
 }

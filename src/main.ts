@@ -1,8 +1,13 @@
 import "./style.scss";
-import { inject } from "@vercel/analytics";
 
 import Experience from "./experience/Experience";
 
-inject();
+if (process.env.NODE_ENV === "production") {
+    import("@vercel/analytics")
+        .then(({ inject }) => {
+            inject();
+        })
+        .catch((error) => console.error("Failed to load vercel analytics:", error));
+}
 
 Experience.getInstance();

@@ -81,6 +81,10 @@ export default class ViewportManager extends EventEmitter {
       ?.addEventListener("click", () => {
         this.toggleFullscreen();
       });
+
+    document.addEventListener("fullscreenchange", () => {
+      this.updateFullscreenButton();
+    });
   }
 
   private toggleFullscreen(): void {
@@ -93,16 +97,27 @@ export default class ViewportManager extends EventEmitter {
       } else if ((document as any).body.webkitRequestFullscreen) {
         (document as any).body.webkitRequestFullscreen();
       }
-      (document.getElementById("fullscreen-button") as HTMLElement).innerHTML =
-        "fullscreen_exit";
     } else {
       if (document.exitFullscreen) {
         document.exitFullscreen().finally();
       } else if ((document as any).webkitExitFullscreen) {
         (document as any).webkitExitFullscreen();
       }
+    }
+
+    this.updateFullscreenButton();
+  }
+
+  private updateFullscreenButton(): void {
+    const fullscreenElement =
+      document.fullscreenElement || (document as any).webkitFullscreenElement;
+
+    if (!fullscreenElement) {
       (document.getElementById("fullscreen-button") as HTMLElement).innerHTML =
         "fullscreen";
+    } else {
+      (document.getElementById("fullscreen-button") as HTMLElement).innerHTML =
+        "fullscreen_exit";
     }
   }
 }

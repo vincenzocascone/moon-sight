@@ -35,7 +35,6 @@ The Moon Sight application consists of several key components:
 
 ## Tasks
 
-- Fix Rendering Issue
 - Check Orientation Device Sensor 
 - Improve World Classes
 - Improve loader
