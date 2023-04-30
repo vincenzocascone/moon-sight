@@ -1,12 +1,13 @@
 import "./style.scss";
-// import { inject } from "@vercel/analytics";
 
 import Experience from "./experience/Experience";
 
-// inject analytics only if in production
 if (process.env.NODE_ENV === "production") {
- // inject();
+    import("@vercel/analytics")
+        .then(({ inject }) => {
+            inject();
+        })
+        .catch((error) => console.error("Failed to load vercel analytics:", error));
 }
-console.log(process.env.NODE_ENV)
 
 Experience.getInstance();
