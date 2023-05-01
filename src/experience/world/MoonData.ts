@@ -12,11 +12,11 @@ interface CurrentDate {
 export default class MoonData extends EventEmitter {
   private currentDate: CurrentDate;
   private debugFolder: any;
-  daysIntoCycle: number;
-  phaseName: string;
-  prevPhaseName: string;
-  rotationDegrees: number;
-  fullDate: string;
+  daysIntoCycle!: number;
+  phaseName!: string;
+  prevPhaseName!: string;
+  rotationDegrees!: number;
+  fullDate!: string;
 
   constructor() {
     super();

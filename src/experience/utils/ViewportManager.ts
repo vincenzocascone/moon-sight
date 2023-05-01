@@ -9,8 +9,10 @@ export default class ViewportManager extends EventEmitter {
   isVisible: boolean;
   isMobile: boolean;
 
-  constructor(fullscreenButtonElementId?: string) {
+  constructor(options: { fullscreenButtonElementId?: string }) {
     super();
+
+    const { fullscreenButtonElementId } = options;
 
     if (fullscreenButtonElementId) {
       this._fullscreenButtonElement = document.getElementById(

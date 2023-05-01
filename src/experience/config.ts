@@ -1,26 +1,26 @@
+import sources from "./sources";
 import { PanelType } from "./utils/StatsPanel";
 
 export default {
-  experience: {
-    canvasId: "main-canvas",
-    camera: {
-      parallaxFactor: 0.003,
+  canvasElementId: "main-canvas",
+  camera: {
+    parallaxFactor: 0.003,
+  },
+  utils: {
+    viewportManager: {
+      fullscreenButtonElementId: "fullscreen-button",
     },
-    utils: {
-      viewportManager: {
-        fullscreenButtonId: "fullscreen-button",
-      },
-      resourcesManager: {
-        loaderId: "loading-bar",
-      },
-      debugUi: {
-        width: 300,
-        hash: "#dev",
-      },
-      statsPanel: {
-        hash: "#dev",
-        panelType: PanelType.FPS,
-      },
+    resourcesManager: {
+      loaderElementId: "loading-bar",
+      sources,
+    },
+    debugUi: {
+      width: 300,
+      devHash: "#dev",
+    },
+    statsPanel: {
+      devHash: "#dev",
+      panelType: PanelType.FPS,
     },
   },
 };

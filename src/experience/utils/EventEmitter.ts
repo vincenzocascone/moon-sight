@@ -1,16 +1,17 @@
 type Callback = (...args: any[]) => any;
+
 type EventMap = {
   [namespace: string]: { [eventName: string]: Callback[] };
 };
 
 export default class EventEmitter {
-  readonly callbacks: EventMap;
+  public readonly callbacks: EventMap;
 
   constructor() {
     this.callbacks = { base: {} };
   }
 
-  on(_names: string, callback: Callback): EventEmitter {
+  public on(_names: string, callback: Callback): EventEmitter {
     // Errors
     if (typeof _names === "undefined" || _names === "") {
       console.warn("wrong names");
@@ -35,17 +36,17 @@ export default class EventEmitter {
         this.callbacks[name.namespace] = {};
 
       // Create callback if not exist
-      if (!(this.callbacks[name.namespace][name.value] instanceof Array))
-        this.callbacks[name.namespace][name.value] = [];
+      if (!(this.callbacks[name.namespace]![name.value] instanceof Array))
+        this.callbacks[name.namespace]![name.value] = [];
 
       // Add callback
-      this.callbacks[name.namespace][name.value].push(callback);
+      this.callbacks[name.namespace]![name.value]!.push(callback);
     });
 
     return this;
   }
 
-  off(_names: string): EventEmitter {
+  public off(_names: string): EventEmitter {
     // Errors
     if (typeof _names === "undefined" || _names === "") {
       console.warn("wrong name");
@@ -73,12 +74,12 @@ export default class EventEmitter {
           for (const namespace in this.callbacks) {
             if (
               this.callbacks[namespace] instanceof Object &&
-              this.callbacks[namespace][name.value] instanceof Array
+              this.callbacks[namespace]![name.value] instanceof Array
             ) {
-              delete this.callbacks[namespace][name.value];
+              delete this.callbacks[namespace]![name.value];
 
               // Remove namespace if empty
-              if (Object.keys(this.callbacks[namespace]).length === 0)
+              if (Object.keys(this.callbacks[namespace]!).length === 0)
                 delete this.callbacks[namespace];
             }
           }
@@ -87,12 +88,12 @@ export default class EventEmitter {
         // Specified namespace
         else if (
           this.callbacks[name.namespace] instanceof Object &&
-          this.callbacks[name.namespace][name.value] instanceof Array
+          this.callbacks[name.namespace]![name.value] instanceof Array
         ) {
-          delete this.callbacks[name.namespace][name.value];
+          delete this.callbacks[name.namespace]![name.value];
 
           // Remove namespace if empty
-          if (Object.keys(this.callbacks[name.namespace]).length === 0)
+          if (Object.keys(this.callbacks[name.namespace]!).length === 0)
             delete this.callbacks[name.namespace];
         }
       }
@@ -101,7 +102,7 @@ export default class EventEmitter {
     return this;
   }
 
-  trigger(_name: string, _args?: any[]): any {
+  public trigger(_name: string, _args?: any[]): any {
     if (typeof _name === "undefined" || _name === "") {
       console.warn("wrong name");
       return false;
@@ -114,7 +115,7 @@ export default class EventEmitter {
 
     const names = this.resolveNames(_name);
 
-    const name = this.resolveName(names[0]);
+    const name = this.resolveName(names[0]!);
 
     // Default namespace
     if (name.namespace === "base") {
@@ -122,10 +123,9 @@ export default class EventEmitter {
       for (const namespace in this.callbacks) {
         if (
           this.callbacks[namespace] instanceof Object &&
-          this.callbacks[namespace][name.value] instanceof Array
+          this.callbacks[namespace]![name.value] instanceof Array
         ) {
-          this.callbacks[namespace][name.value].forEach(function (callback) {
-            // @ts-ignore
+          this.callbacks[namespace]![name.value]!.forEach(function (callback) {
             result = callback.apply(this, args);
 
             if (typeof finalResult === "undefined") {
@@ -143,8 +143,7 @@ export default class EventEmitter {
         return this;
       }
 
-      this.callbacks[name.namespace][name.value].forEach(function (callback) {
-        // @ts-ignore
+      this.callbacks[name.namespace]![name.value]!.forEach(function (callback) {
         result = callback.apply(this, args);
 
         if (typeof finalResult === "undefined") finalResult = result;

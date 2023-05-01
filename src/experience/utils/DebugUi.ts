@@ -1,26 +1,22 @@
 import GUI from "lil-gui";
 
-interface DebugOptions {
+interface DebugUiConfig {
   width?: number;
   devHash?: string;
 }
 
 export default class DebugUi {
-  readonly active: boolean;
-  ui?: GUI;
+  public readonly active: boolean;
+  public ui!: GUI;
+  private config: DebugUiConfig;
 
-  constructor(options: DebugOptions = {}) {
-    const { width = 400, devHash = "#dev" } = options;
-    this.active = window.location.hash === devHash;
+  constructor(config: DebugUiConfig = {}) {
+    this.config = config;
+
+    this.active = window.location.hash === this.config.devHash;
 
     if (this.active) {
-      this.ui = new GUI({ width });
-    }
-  }
-
-  destroy(): void {
-    if (this.ui) {
-      this.ui.destroy();
+      this.ui = new GUI({ width: this.config.width || 300 });
     }
   }
 }

@@ -6,9 +6,9 @@ import World from "./World";
 import Experience from "../Experience";
 
 export default class PhaseText {
-  geometry: TextGeometry;
-  material: THREE.MeshMatcapMaterial;
-  mesh: THREE.Mesh;
+  geometry!: TextGeometry;
+  material!: THREE.MeshMatcapMaterial;
+  mesh!: THREE.Mesh;
 
   constructor() {
     this.setGeometry();

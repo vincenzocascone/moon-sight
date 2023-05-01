@@ -3,7 +3,6 @@ import * as THREE from "three";
 import Camera from "./Camera";
 import config from "./config";
 import Renderer from "./Renderer";
-import sources from "./sources";
 import CursorManager from "./utils/CursorManager";
 import DebugUi from "./utils/DebugUi";
 import ResourcesManager from "./utils/ResourcesManager";
@@ -14,18 +13,18 @@ import World from "./world/World";
 
 export default class Experience {
   private static instance: Experience | null = null;
-  canvas: HTMLCanvasElement;
-  debugUi: DebugUi;
-  statsPanel: StatsPanel;
-  viewportManager: ViewportManager;
-  cursorManager: CursorManager;
-  timeManager: TimeManager;
-  scene: THREE.Scene;
-  camera: Camera;
-  resourcesManager: ResourcesManager;
-  renderer: Renderer;
-  world: World;
-  raycaster: THREE.Raycaster;
+  canvas!: HTMLCanvasElement;
+  debugUi!: DebugUi;
+  statsPanel!: StatsPanel;
+  viewportManager!: ViewportManager;
+  cursorManager!: CursorManager;
+  timeManager!: TimeManager;
+  scene!: THREE.Scene;
+  camera!: Camera;
+  resourcesManager!: ResourcesManager;
+  renderer!: Renderer;
+  world!: World;
+  raycaster!: THREE.Raycaster;
 
   private constructor() {
     if (Experience.instance) {
@@ -35,25 +34,14 @@ export default class Experience {
 
     this.initializeCanvas();
 
-    this.debugUi = new DebugUi({
-      width: config.experience.utils.debugUi.width,
-      devHash: config.experience.utils.debugUi.hash,
-    });
-    this.statsPanel = new StatsPanel({
-      devHash: config.experience.utils.statsPanel.hash,
-      panelType: config.experience.utils.statsPanel.panelType,
-    });
-    this.viewportManager = new ViewportManager(
-      config.experience.utils.viewportManager.fullscreenButtonId
-    );
+    this.debugUi = new DebugUi(config.utils.debugUi);
+    this.statsPanel = new StatsPanel(config.utils.statsPanel);
+    this.viewportManager = new ViewportManager(config.utils.viewportManager);
     this.cursorManager = new CursorManager();
     this.timeManager = new TimeManager();
     this.scene = new THREE.Scene();
     this.camera = new Camera();
-    this.resourcesManager = new ResourcesManager(
-      sources,
-      config.experience.utils.resourcesManager.loaderId
-    );
+    this.resourcesManager = new ResourcesManager(config.utils.resourcesManager);
     this.renderer = new Renderer();
     this.raycaster = new THREE.Raycaster();
     this.world = World.getInstance();
@@ -70,7 +58,7 @@ export default class Experience {
 
   private initializeCanvas() {
     this.canvas = document.getElementById(
-      config.experience.canvasId
+      config.canvasElementId
     ) as HTMLCanvasElement;
 
     if (!this.canvas) {

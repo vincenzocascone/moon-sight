@@ -35,9 +35,8 @@ The Moon Sight application consists of several key components:
 
 ## Tasks
 
-- Check Orientation Device Sensor 
+- Refactor class syntax
 - Add GesturesManager
 - Improve World Classes
-- Improve loader
-- Improve UI
-- Improve Texts
+- Final Review
+- Ideas for improvements

@@ -21,21 +21,29 @@ interface Loaders {
   fontLoader: FontLoader;
 }
 
+interface ResourcesManagerConfig {
+  sources: Source[];
+  loaderElementId?: string;
+}
+
 export default class ResourcesManager extends EventEmitter {
-  private readonly _sources: Source[];
   private readonly _loaderElement: HTMLElement | null = null;
-  private _overlay: THREE.Mesh;
-  private _loaders: Loaders;
+  private _config: ResourcesManagerConfig;
+  private _overlay!: THREE.Mesh;
+  private _loaders!: Loaders;
   readonly items: Record<string, any>;
 
-  constructor(sources: Source[], loaderElementId?: string) {
+  constructor(config: { sources: Source[]; loaderElementId?: string }) {
     super();
 
-    if (loaderElementId) {
-      this._loaderElement = document.getElementById(loaderElementId);
+    this._config = config;
+
+    if (this._config.loaderElementId) {
+      this._loaderElement = document.getElementById(
+        this._config.loaderElementId
+      );
     }
 
-    this._sources = sources;
     this.items = {};
 
     this.setOverlay();
@@ -92,7 +100,7 @@ export default class ResourcesManager extends EventEmitter {
   }
 
   private startLoading() {
-    for (const source of this._sources) {
+    for (const source of this._config.sources) {
       if (source.type === SourceType.Texture) {
         this._loaders.textureLoader.load(source.path, (file) => {
           this.sourceLoaded(source, file);

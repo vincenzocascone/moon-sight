@@ -1,13 +1,19 @@
 import * as THREE from "three";
 
-import config from "./config";
 import Experience from "./Experience";
 
+interface CameraConfig {
+  parallaxFactor: number;
+}
+
 export default class Camera {
+  private _config: CameraConfig;
   instance: THREE.PerspectiveCamera;
 
-  constructor() {
+  constructor(config: CameraConfig = { parallaxFactor: 0.005 }) {
     const { viewportManager } = Experience.getInstance();
+
+    this._config = config;
 
     this.instance = new THREE.PerspectiveCamera(
       45,
@@ -41,7 +47,7 @@ export default class Camera {
     if (!viewportManager.isMobile) {
       this.instance.position.x +=
         (cursorManager.position.x - this.instance.position.x) *
-        config.experience.camera.parallaxFactor *
+        this._config.parallaxFactor *
         timeManager.delta;
     }
 

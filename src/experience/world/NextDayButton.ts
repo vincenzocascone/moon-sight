@@ -6,9 +6,9 @@ import Experience from "../Experience";
 import EventEmitter from "../utils/EventEmitter";
 
 export default class NextDayButton extends EventEmitter {
-  geometry: TextGeometry;
-  material: THREE.MeshMatcapMaterial;
-  mesh: THREE.Mesh;
+  geometry!: TextGeometry;
+  material!: THREE.MeshMatcapMaterial;
+  mesh!: THREE.Mesh;
 
   constructor() {
     super();

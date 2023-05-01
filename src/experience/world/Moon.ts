@@ -4,9 +4,9 @@ import Experience from "../Experience";
 
 export default class Moon {
   private debugFolder: any;
-  private geometry: THREE.SphereGeometry;
-  private material: THREE.MeshStandardMaterial;
-  private mesh: THREE.Mesh;
+  private geometry!: THREE.SphereGeometry;
+  private material!: THREE.MeshStandardMaterial;
+  private mesh!: THREE.Mesh;
 
   constructor() {
     this.setDebug();
