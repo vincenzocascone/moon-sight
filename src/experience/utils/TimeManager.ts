@@ -1,12 +1,12 @@
 import EventEmitter from "./EventEmitter";
 
 export default class TimeManager extends EventEmitter {
-  readonly start: number;
-  current: number;
-  elapsed: number;
-  delta: number;
+  public readonly start: number;
+  public current: number;
+  public elapsed: number;
+  public delta: number;
 
-  constructor() {
+  public constructor() {
     super();
 
     this.start = Date.now();

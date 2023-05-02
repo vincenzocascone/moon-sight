@@ -3,9 +3,9 @@ import { Vector2 } from "three";
 import EventEmitter from "./EventEmitter";
 
 export default class CursorManager extends EventEmitter {
-  position: Vector2;
+  public position: Vector2;
 
-  constructor() {
+  public constructor() {
     super();
 
     this.position = new Vector2();
@@ -20,4 +20,3 @@ export default class CursorManager extends EventEmitter {
     });
   }
 }
-// allowUnreachableCode, allowUnusedLabels, alwaysStrict, exactOptionalPropertyTypes, noFallthroughCasesInSwitch, noImplicitAny, noImplicitOverride, noImplicitReturns, noImplicitThis, noPropertyAccessFromIndexSignature, noUncheckedIndexedAccess, noUnusedLocals, noUnusedParameters, strict, strictBindCallApply, strictFunctionTypes, strictNullChecks, strictPropertyInitialization and useUnknownInCatchVariables

@@ -3,13 +3,13 @@ import { Vector2 } from "three";
 import EventEmitter from "./EventEmitter";
 
 export default class ViewportManager extends EventEmitter {
+  public size: Vector2;
+  public pixelRatio: number;
+  public isVisible: boolean;
+  public isMobile: boolean;
   private readonly _fullscreenButtonElement: HTMLElement | null = null;
-  size: Vector2;
-  pixelRatio: number;
-  isVisible: boolean;
-  isMobile: boolean;
 
-  constructor(options: { fullscreenButtonElementId?: string }) {
+  public constructor(options: { fullscreenButtonElementId?: string }) {
     super();
 
     const { fullscreenButtonElementId } = options;

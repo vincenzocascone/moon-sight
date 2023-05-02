@@ -13,20 +13,21 @@ import World from "./world/World";
 
 export default class Experience {
   private static instance: Experience | null = null;
-  canvas!: HTMLCanvasElement;
-  debugUi!: DebugUi;
-  statsPanel!: StatsPanel;
-  viewportManager!: ViewportManager;
-  cursorManager!: CursorManager;
-  timeManager!: TimeManager;
-  scene!: THREE.Scene;
-  camera!: Camera;
-  resourcesManager!: ResourcesManager;
-  renderer!: Renderer;
-  world!: World;
-  raycaster!: THREE.Raycaster;
 
-  private constructor() {
+  public canvas!: HTMLCanvasElement;
+  public debugUi!: DebugUi;
+  public statsPanel!: StatsPanel;
+  public viewportManager!: ViewportManager;
+  public cursorManager!: CursorManager;
+  public timeManager!: TimeManager;
+  public scene!: THREE.Scene;
+  public camera!: Camera;
+  public resourcesManager!: ResourcesManager;
+  public renderer!: Renderer;
+  public world!: World;
+  public raycaster!: THREE.Raycaster;
+
+  public constructor() {
     if (Experience.instance) {
       return Experience.instance;
     }
@@ -49,7 +50,7 @@ export default class Experience {
     this.registerEventListeners();
   }
 
-  static getInstance(): Experience {
+  public static getInstance(): Experience {
     if (!Experience.instance) {
       Experience.instance = new Experience();
     }

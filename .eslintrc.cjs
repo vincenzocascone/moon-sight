@@ -17,7 +17,6 @@ module.exports = {
   plugins: ["@typescript-eslint", "import"],
   rules: {
     // "@typescript-eslint/ban-ts-comment": "off",
-    // "@typescript-eslint/no-explicit-any": "off",
     "import/order": [
       "error",
       {
@@ -36,6 +35,9 @@ module.exports = {
         },
       },
     ],
-    "@typescript-eslint/member-ordering": "error"
+    "@typescript-eslint/member-ordering": "error",
+    "@typescript-eslint/explicit-member-accessibility": "error",
+    "@typescript-eslint/no-explicit-any": "off",
+    "@typescript-eslint/no-non-null-assertion": "off",
   },
 };

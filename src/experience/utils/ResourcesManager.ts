@@ -27,13 +27,13 @@ interface ResourcesManagerConfig {
 }
 
 export default class ResourcesManager extends EventEmitter {
+  public readonly items: Record<string, any>;
   private readonly _loaderElement: HTMLElement | null = null;
   private _config: ResourcesManagerConfig;
   private _overlay!: THREE.Mesh;
   private _loaders!: Loaders;
-  readonly items: Record<string, any>;
 
-  constructor(config: { sources: Source[]; loaderElementId?: string }) {
+  public constructor(config: { sources: Source[]; loaderElementId?: string }) {
     super();
 
     this._config = config;
@@ -80,8 +80,10 @@ export default class ResourcesManager extends EventEmitter {
           scene.remove(this._overlay);
         });
       },
-      // @ts-ignore
       (itemUrl, itemsLoaded, itemsTotal) => {
+        console.log(
+          `Loading file: ${itemUrl}. Loaded ${itemsLoaded} of ${itemsTotal}`
+        );
         if (this._loaderElement) {
           this._loaderElement.style.transform = `scaleX(${
             itemsLoaded / itemsTotal

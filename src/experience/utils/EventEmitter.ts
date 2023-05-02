@@ -7,7 +7,7 @@ type EventMap = {
 export default class EventEmitter {
   public readonly callbacks: EventMap;
 
-  constructor() {
+  public constructor() {
     this.callbacks = { base: {} };
   }
 
@@ -125,7 +125,7 @@ export default class EventEmitter {
           this.callbacks[namespace] instanceof Object &&
           this.callbacks[namespace]![name.value] instanceof Array
         ) {
-          this.callbacks[namespace]![name.value]!.forEach(function (callback) {
+          this.callbacks[namespace]![name.value]!.forEach((callback) => {
             result = callback.apply(this, args);
 
             if (typeof finalResult === "undefined") {
@@ -143,7 +143,7 @@ export default class EventEmitter {
         return this;
       }
 
-      this.callbacks[name.namespace]![name.value]!.forEach(function (callback) {
+      this.callbacks[name.namespace]![name.value]!.forEach((callback) => {
         result = callback.apply(this, args);
 
         if (typeof finalResult === "undefined") finalResult = result;
@@ -171,12 +171,12 @@ export default class EventEmitter {
     } = { original: "", value: "", namespace: "base" };
     const parts = name.split(".");
     newName.original = name;
-    newName.value = parts[0];
+    newName.value = parts[0]!;
     newName.namespace = "base"; // Base namespace
 
     // Specified namespace
     if (parts.length > 1 && parts[1] !== "") {
-      newName.namespace = parts[1];
+      newName.namespace = parts[1]!;
     }
 
     return newName;

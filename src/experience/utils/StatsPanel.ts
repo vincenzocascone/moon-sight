@@ -10,20 +10,20 @@ interface StatsPanelConfig {
 }
 
 export default class StatsPanel {
-  private _config: StatsPanelConfig;
-  readonly active: boolean;
-  instance?: StatsJS;
+  public readonly active: boolean;
+  public instance?: StatsJS;
+  private config: StatsPanelConfig;
 
-  constructor(
+  public constructor(
     config: StatsPanelConfig = { panelType: PanelType.FPS, devHash: "#dev" }
   ) {
-    this._config = config;
+    this.config = config;
 
-    this.active = window.location.hash === this._config.devHash;
+    this.active = window.location.hash === this.config.devHash;
 
     if (this.active) {
       this.instance = new StatsJS();
-      this.instance.showPanel(this._config.panelType || PanelType.FPS);
+      this.instance.showPanel(this.config.panelType || PanelType.FPS);
       document.body.appendChild(this.instance.dom);
     }
   }

@@ -10,7 +10,7 @@ export default class DebugUi {
   public ui!: GUI;
   private config: DebugUiConfig;
 
-  constructor(config: DebugUiConfig = {}) {
+  public constructor(config: DebugUiConfig = {}) {
     this.config = config;
 
     this.active = window.location.hash === this.config.devHash;
