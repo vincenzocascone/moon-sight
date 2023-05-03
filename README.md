@@ -8,6 +8,7 @@ Moon Sight is a web application that displays a 3D model of the moon in its curr
 2. [Tech Stack](#tech-stack)
 3. [Key Components](#key-components)
 4. [Tasks](#tasks)
+5. [Ideas](#ideas)
 
 ## Overview
 
@@ -40,3 +41,7 @@ The Moon Sight application consists of several key components:
 - Improve World Classes
 - Final Review
 - Ideas for improvements
+
+## Ideas
+
+- loader svg animation
