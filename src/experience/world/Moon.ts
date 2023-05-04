@@ -8,7 +8,7 @@ export default class Moon {
   private material!: THREE.MeshStandardMaterial;
   private mesh!: THREE.Mesh;
 
-  private constructor() {
+  public constructor() {
     this.setDebug();
     this.setGeometry();
     this.setMaterial();
