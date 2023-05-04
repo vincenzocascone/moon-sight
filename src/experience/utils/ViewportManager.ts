@@ -4,6 +4,7 @@ import EventEmitter from "./EventEmitter";
 
 interface ViewportManagerConfig {
   fullscreenButtonElementId?: string;
+  fullscreenSupport?: boolean;
 }
 
 export default class ViewportManager extends EventEmitter {
@@ -14,7 +15,9 @@ export default class ViewportManager extends EventEmitter {
   private readonly fullscreenButtonElement?: HTMLElement;
   private config: ViewportManagerConfig;
 
-  public constructor(config: ViewportManagerConfig = {}) {
+  public constructor(
+    config: ViewportManagerConfig = { fullscreenSupport: false }
+  ) {
     super();
 
     this.config = config;
@@ -42,17 +45,27 @@ export default class ViewportManager extends EventEmitter {
       this.trigger("resize");
     });
 
-    this.fullscreenButtonElement?.addEventListener("click", () =>
-      this.toggleFullscreen()
-    );
-
-    document.addEventListener("fullscreenchange", () =>
-      this.updateFullscreenButton()
-    );
-
     document.addEventListener("visibilitychange", () => {
       this.isVisible = !document.hidden;
     });
+
+    if (this.config.fullscreenSupport) {
+      window.addEventListener("keyup", (event) => {
+        if (event.key === "f") {
+          this.toggleFullscreen();
+        }
+      });
+
+      if (this.fullscreenButtonElement) {
+        this.fullscreenButtonElement.addEventListener("click", () =>
+          this.toggleFullscreen()
+        );
+
+        document.addEventListener("fullscreenchange", () =>
+          this.updateFullscreenButton()
+        );
+      }
+    }
   }
 
   private toggleFullscreen(): void {
