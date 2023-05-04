@@ -6,14 +6,27 @@ import Experience from "../Experience";
 
 export default class Environment {
   private debugFolder: any;
-  private ambientLight: THREE.AmbientLight;
-  private sunLight: THREE.DirectionalLight;
+  private ambientLight!: THREE.AmbientLight;
+  private sunLight!: THREE.DirectionalLight;
 
-  constructor() {
+  public constructor() {
     this.setDebug();
     this.setAmbientLight();
     this.setSunLight();
     this.setSunLightPosition();
+  }
+
+  public updateData(): void {
+    const { moonData } = World.getInstance();
+
+    gsap.to(this.sunLight.position, {
+      duration: 1,
+      x: Math.cos(moonData.rotationDegrees) * 10,
+    });
+    gsap.to(this.sunLight.position, {
+      duration: 1,
+      z: Math.sin(moonData.rotationDegrees) * 10,
+    });
   }
 
   private setDebug(): void {
@@ -58,18 +71,5 @@ export default class Environment {
 
     this.sunLight.position.x = Math.cos(moonData.rotationDegrees) * 10;
     this.sunLight.position.z = Math.sin(moonData.rotationDegrees) * 10;
-  }
-
-  public updateData(): void {
-    const { moonData } = World.getInstance();
-
-    gsap.to(this.sunLight.position, {
-      duration: 1,
-      x: Math.cos(moonData.rotationDegrees) * 10,
-    });
-    gsap.to(this.sunLight.position, {
-      duration: 1,
-      z: Math.sin(moonData.rotationDegrees) * 10,
-    });
   }
 }

@@ -6,11 +6,11 @@ import Experience from "../Experience";
 import EventEmitter from "../utils/EventEmitter";
 
 export default class PrevDayButton extends EventEmitter {
-  geometry: TextGeometry;
-  material: THREE.MeshMatcapMaterial;
-  mesh: THREE.Mesh;
+  private geometry!: TextGeometry;
+  private material!: THREE.MeshMatcapMaterial;
+  private mesh!: THREE.Mesh;
 
-  constructor() {
+  public constructor() {
     super();
 
     this.setGeometry();
@@ -20,7 +20,27 @@ export default class PrevDayButton extends EventEmitter {
     this.resize();
   }
 
-  setGeometry(): void {
+  public resize(): void {
+    const { viewportManager } = Experience.getInstance();
+    if (viewportManager.size.width < 420) {
+      this.mesh.scale.set(0.5, 0.5, 0.5);
+      this.mesh.position.x = -1.3;
+    } else if (viewportManager.size.width < 560) {
+      this.mesh.scale.set(0.55, 0.55, 0.55);
+      this.mesh.position.x = -1.5;
+    } else if (viewportManager.size.width < 720) {
+      this.mesh.scale.set(0.6, 0.6, 0.6);
+      this.mesh.position.x = -1.8;
+    } else if (viewportManager.size.width < 880) {
+      this.mesh.scale.set(0.8, 0.8, 0.8);
+      this.mesh.position.x = -2.2;
+    } else {
+      this.mesh.scale.set(1, 1, 1);
+      this.mesh.position.x = -2.8;
+    }
+  }
+
+  private setGeometry(): void {
     const { resourcesManager } = Experience.getInstance();
 
     this.geometry = new TextGeometry("<<", {
@@ -37,7 +57,7 @@ export default class PrevDayButton extends EventEmitter {
     this.geometry.center();
   }
 
-  setMaterial(): void {
+  private setMaterial(): void {
     const { resourcesManager } = Experience.getInstance();
 
     this.material = new THREE.MeshMatcapMaterial({
@@ -45,7 +65,7 @@ export default class PrevDayButton extends EventEmitter {
     });
   }
 
-  setMesh(): void {
+  private setMesh(): void {
     const { scene } = Experience.getInstance();
 
     this.mesh = new THREE.Mesh(this.geometry, this.material);
@@ -55,7 +75,7 @@ export default class PrevDayButton extends EventEmitter {
     scene.add(this.mesh);
   }
 
-  setListener(): void {
+  private setListener(): void {
     const { camera, raycaster } = Experience.getInstance();
     // Arrow keys
     window.addEventListener("keyup", (event: KeyboardEvent) => {
@@ -79,42 +99,22 @@ export default class PrevDayButton extends EventEmitter {
     let touchStartX = 0;
     let touchEndX = 0;
     window.addEventListener("touchstart", (event: TouchEvent) => {
-      touchStartX = event.changedTouches[0].screenX;
+      touchStartX = event.changedTouches[0]?.screenX ?? 0;
     });
     window.addEventListener("touchend", (event: TouchEvent) => {
-      touchEndX = event.changedTouches[0].screenX;
+      touchEndX = event.changedTouches[0]?.screenX ?? 0;
       if (touchEndX > touchStartX) {
         this.prevDay();
       }
     });
   }
 
-  prevDay(): void {
+  private prevDay(): void {
     gsap.fromTo(
       this.mesh.rotation,
       { x: -Math.PI * 0.15 },
       { duration: 1.8, x: Math.PI - Math.PI * 0.15, ease: "elastic" }
     );
     this.trigger("prevDay");
-  }
-
-  resize(): void {
-    const { viewportManager } = Experience.getInstance();
-    if (viewportManager.size.width < 420) {
-      this.mesh.scale.set(0.5, 0.5, 0.5);
-      this.mesh.position.x = -1.3;
-    } else if (viewportManager.size.width < 560) {
-      this.mesh.scale.set(0.55, 0.55, 0.55);
-      this.mesh.position.x = -1.5;
-    } else if (viewportManager.size.width < 720) {
-      this.mesh.scale.set(0.6, 0.6, 0.6);
-      this.mesh.position.x = -1.8;
-    } else if (viewportManager.size.width < 880) {
-      this.mesh.scale.set(0.8, 0.8, 0.8);
-      this.mesh.position.x = -2.2;
-    } else {
-      this.mesh.scale.set(1, 1, 1);
-      this.mesh.position.x = -2.8;
-    }
   }
 }

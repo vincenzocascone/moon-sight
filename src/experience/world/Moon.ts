@@ -8,12 +8,24 @@ export default class Moon {
   private material!: THREE.MeshStandardMaterial;
   private mesh!: THREE.Mesh;
 
-  constructor() {
+  private constructor() {
     this.setDebug();
     this.setGeometry();
     this.setMaterial();
     this.setMesh();
     this.resize();
+  }
+
+  public resize(): void {
+    const { viewportManager } = Experience.getInstance();
+
+    if (viewportManager.size.width < 400) {
+      this.mesh.scale.set(0.8, 0.8, 0.8);
+    } else if (viewportManager.size.width < 600) {
+      this.mesh.scale.set(0.85, 0.85, 0.85);
+    } else {
+      this.mesh.scale.set(1, 1, 1);
+    }
   }
 
   private setDebug(): void {
@@ -58,17 +70,5 @@ export default class Moon {
     this.mesh.rotation.y = 4.5;
 
     scene.add(this.mesh);
-  }
-
-  resize(): void {
-    const { viewportManager } = Experience.getInstance();
-
-    if (viewportManager.size.width < 400) {
-      this.mesh.scale.set(0.8, 0.8, 0.8);
-    } else if (viewportManager.size.width < 600) {
-      this.mesh.scale.set(0.85, 0.85, 0.85);
-    } else {
-      this.mesh.scale.set(1, 1, 1);
-    }
   }
 }

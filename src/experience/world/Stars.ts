@@ -3,17 +3,17 @@ import * as THREE from "three";
 import Experience from "../Experience";
 
 export default class Stars {
-  private geometry: THREE.BufferGeometry;
-  private material: THREE.PointsMaterial;
-  private mesh: THREE.Points;
+  private geometry!: THREE.BufferGeometry;
+  private material!: THREE.PointsMaterial;
+  private mesh!: THREE.Points;
 
-  constructor() {
+  public constructor() {
     this.setGeometry();
     this.setMaterial();
     this.setMesh();
   }
 
-  setGeometry(): void {
+  private setGeometry(): void {
     this.geometry = new THREE.BufferGeometry();
 
     const vertices = new Float32Array(15000);
@@ -42,7 +42,7 @@ export default class Stars {
     this.geometry.setAttribute("color", new THREE.BufferAttribute(colors, 3));
   }
 
-  setMaterial(): void {
+  private setMaterial(): void {
     this.material = new THREE.PointsMaterial({
       size: 0.05,
       sizeAttenuation: true,
@@ -50,7 +50,7 @@ export default class Stars {
     });
   }
 
-  setMesh(): void {
+  private setMesh(): void {
     const { scene } = Experience.getInstance();
 
     this.mesh = new THREE.Points(this.geometry, this.material);

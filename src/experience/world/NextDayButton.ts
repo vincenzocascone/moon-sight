@@ -6,11 +6,11 @@ import Experience from "../Experience";
 import EventEmitter from "../utils/EventEmitter";
 
 export default class NextDayButton extends EventEmitter {
-  geometry!: TextGeometry;
-  material!: THREE.MeshMatcapMaterial;
-  mesh!: THREE.Mesh;
+  private geometry!: TextGeometry;
+  private material!: THREE.MeshMatcapMaterial;
+  private mesh!: THREE.Mesh;
 
-  constructor() {
+  public constructor() {
     super();
 
     this.setGeometry();
@@ -20,7 +20,28 @@ export default class NextDayButton extends EventEmitter {
     this.resize();
   }
 
-  setGeometry() {
+  public resize() {
+    const { viewportManager } = Experience.getInstance();
+
+    if (viewportManager.size.width < 420) {
+      this.mesh.scale.set(0.5, 0.5, 0.5);
+      this.mesh.position.x = 1.3;
+    } else if (viewportManager.size.width < 560) {
+      this.mesh.scale.set(0.55, 0.55, 0.55);
+      this.mesh.position.x = 1.5;
+    } else if (viewportManager.size.width < 720) {
+      this.mesh.scale.set(0.6, 0.6, 0.6);
+      this.mesh.position.x = 1.8;
+    } else if (viewportManager.size.width < 880) {
+      this.mesh.scale.set(0.8, 0.8, 0.8);
+      this.mesh.position.x = 2.2;
+    } else {
+      this.mesh.scale.set(1, 1, 1);
+      this.mesh.position.x = 2.8;
+    }
+  }
+
+  private setGeometry() {
     const { resourcesManager } = Experience.getInstance();
 
     this.geometry = new TextGeometry(">>", {
@@ -37,7 +58,7 @@ export default class NextDayButton extends EventEmitter {
     this.geometry.center();
   }
 
-  setMaterial() {
+  private setMaterial() {
     const { resourcesManager } = Experience.getInstance();
 
     this.material = new THREE.MeshMatcapMaterial({
@@ -45,7 +66,7 @@ export default class NextDayButton extends EventEmitter {
     });
   }
 
-  setMesh() {
+  private setMesh() {
     const { scene } = Experience.getInstance();
 
     this.mesh = new THREE.Mesh(this.geometry, this.material);
@@ -55,7 +76,7 @@ export default class NextDayButton extends EventEmitter {
     scene.add(this.mesh);
   }
 
-  setListener() {
+  private setListener() {
     const { raycaster, camera } = Experience.getInstance();
 
     window.addEventListener("keyup", (event: KeyboardEvent) => {
@@ -78,43 +99,22 @@ export default class NextDayButton extends EventEmitter {
     let touchStartX = 0;
     let touchEndX = 0;
     window.addEventListener("touchstart", (event: TouchEvent) => {
-      touchStartX = event.changedTouches[0].screenX;
+      touchStartX = event.changedTouches[0]?.screenX ?? 0;
     });
     window.addEventListener("touchend", (event: TouchEvent) => {
-      touchEndX = event.changedTouches[0].screenX;
+      touchEndX = event.changedTouches[0]?.screenX ?? 0;
       if (touchEndX < touchStartX) {
         this.nextDay();
       }
     });
   }
 
-  nextDay() {
+  private nextDay() {
     gsap.fromTo(
       this.mesh.rotation,
       { x: -Math.PI * 0.15 },
       { duration: 1.8, x: Math.PI - Math.PI * 0.15, ease: "elastic" }
     );
     this.trigger("nextDay");
-  }
-
-  resize() {
-    const { viewportManager } = Experience.getInstance();
-
-    if (viewportManager.size.width < 420) {
-      this.mesh.scale.set(0.5, 0.5, 0.5);
-      this.mesh.position.x = 1.3;
-    } else if (viewportManager.size.width < 560) {
-      this.mesh.scale.set(0.55, 0.55, 0.55);
-      this.mesh.position.x = 1.5;
-    } else if (viewportManager.size.width < 720) {
-      this.mesh.scale.set(0.6, 0.6, 0.6);
-      this.mesh.position.x = 1.8;
-    } else if (viewportManager.size.width < 880) {
-      this.mesh.scale.set(0.8, 0.8, 0.8);
-      this.mesh.position.x = 2.2;
-    } else {
-      this.mesh.scale.set(1, 1, 1);
-      this.mesh.position.x = 2.8;
-    }
   }
 }

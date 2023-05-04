@@ -6,54 +6,18 @@ import World from "./World";
 import Experience from "../Experience";
 
 export default class PhaseText {
-  geometry!: TextGeometry;
-  material!: THREE.MeshMatcapMaterial;
-  mesh!: THREE.Mesh;
+  private geometry!: TextGeometry;
+  private material!: THREE.MeshMatcapMaterial;
+  private mesh!: THREE.Mesh;
 
-  constructor() {
+  public constructor() {
     this.setGeometry();
     this.setMaterial();
     this.setMesh();
     this.resize();
   }
 
-  setGeometry() {
-    const { resourcesManager } = Experience.getInstance();
-    const { moonData } = World.getInstance();
-
-    this.geometry = new TextGeometry(moonData.phaseName, {
-      font: resourcesManager.items.text,
-      size: 0.8,
-      height: 0.2,
-      curveSegments: 6,
-      bevelEnabled: true,
-      bevelThickness: 0.03,
-      bevelSize: 0.02,
-      bevelSegments: 3,
-    });
-
-    this.geometry.center();
-  }
-
-  setMaterial() {
-    const { resourcesManager } = Experience.getInstance();
-
-    this.material = new THREE.MeshMatcapMaterial({
-      matcap: resourcesManager.items.textMatcap,
-    });
-  }
-
-  setMesh() {
-    const { scene } = Experience.getInstance();
-
-    this.mesh = new THREE.Mesh(this.geometry, this.material);
-    this.mesh.position.y = 3.2;
-    this.mesh.rotation.x = Math.PI * 0.15;
-
-    scene.add(this.mesh);
-  }
-
-  updateData() {
+  public updateData() {
     const { scene } = Experience.getInstance();
     const { moonData } = World.getInstance();
 
@@ -74,7 +38,7 @@ export default class PhaseText {
     }
   }
 
-  resize() {
+  public resize() {
     const { viewportManager } = Experience.getInstance();
 
     if (viewportManager.size.width < 420) {
@@ -88,5 +52,41 @@ export default class PhaseText {
     } else {
       this.mesh.scale.set(1, 1, 1);
     }
+  }
+
+  private setGeometry() {
+    const { resourcesManager } = Experience.getInstance();
+    const { moonData } = World.getInstance();
+
+    this.geometry = new TextGeometry(moonData.phaseName, {
+      font: resourcesManager.items.text,
+      size: 0.8,
+      height: 0.2,
+      curveSegments: 6,
+      bevelEnabled: true,
+      bevelThickness: 0.03,
+      bevelSize: 0.02,
+      bevelSegments: 3,
+    });
+
+    this.geometry.center();
+  }
+
+  private setMaterial() {
+    const { resourcesManager } = Experience.getInstance();
+
+    this.material = new THREE.MeshMatcapMaterial({
+      matcap: resourcesManager.items.textMatcap,
+    });
+  }
+
+  private setMesh() {
+    const { scene } = Experience.getInstance();
+
+    this.mesh = new THREE.Mesh(this.geometry, this.material);
+    this.mesh.position.y = 3.2;
+    this.mesh.rotation.x = Math.PI * 0.15;
+
+    scene.add(this.mesh);
   }
 }

@@ -10,15 +10,15 @@ interface CurrentDate {
 }
 
 export default class MoonData extends EventEmitter {
+  public daysIntoCycle!: number;
+  public phaseName!: string;
+  public prevPhaseName!: string;
+  public rotationDegrees!: number;
+  public fullDate!: string;
   private currentDate: CurrentDate;
   private debugFolder: any;
-  daysIntoCycle!: number;
-  phaseName!: string;
-  prevPhaseName!: string;
-  rotationDegrees!: number;
-  fullDate!: string;
 
-  constructor() {
+  public constructor() {
     super();
 
     this.currentDate = {
@@ -31,7 +31,35 @@ export default class MoonData extends EventEmitter {
     this.setDebug();
   }
 
-  updateData(): void {
+  public nextDay(): void {
+    const newDate = dayjs(
+      this.currentDate.year +
+        "-" +
+        this.currentDate.month +
+        "-" +
+        this.currentDate.day
+    ).add(1, "day");
+    this.currentDate.day = newDate.date();
+    this.currentDate.month = newDate.month() + 1;
+    this.currentDate.year = newDate.year();
+    this.updateData();
+  }
+
+  public prevDay(): void {
+    const newDate = dayjs(
+      this.currentDate.year +
+        "-" +
+        this.currentDate.month +
+        "-" +
+        this.currentDate.day
+    ).subtract(1, "day");
+    this.currentDate.day = newDate.date();
+    this.currentDate.month = newDate.month() + 1;
+    this.currentDate.year = newDate.year();
+    this.updateData();
+  }
+
+  public updateData(): void {
     this.getDaysIntoCycle();
     this.getPhaseName();
     this.getRotationDegrees();
@@ -128,33 +156,5 @@ export default class MoonData extends EventEmitter {
         "-" +
         this.currentDate.day
     ).format("D MMM YYYY");
-  }
-
-  public nextDay(): void {
-    const newDate = dayjs(
-      this.currentDate.year +
-        "-" +
-        this.currentDate.month +
-        "-" +
-        this.currentDate.day
-    ).add(1, "day");
-    this.currentDate.day = newDate.date();
-    this.currentDate.month = newDate.month() + 1;
-    this.currentDate.year = newDate.year();
-    this.updateData();
-  }
-
-  public prevDay(): void {
-    const newDate = dayjs(
-      this.currentDate.year +
-        "-" +
-        this.currentDate.month +
-        "-" +
-        this.currentDate.day
-    ).subtract(1, "day");
-    this.currentDate.day = newDate.date();
-    this.currentDate.month = newDate.month() + 1;
-    this.currentDate.year = newDate.year();
-    this.updateData();
   }
 }
