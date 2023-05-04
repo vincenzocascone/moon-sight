@@ -12,8 +12,7 @@ import ViewportManager from "./utils/ViewportManager";
 import World from "./world/World";
 
 export default class Experience {
-  private static instance: Experience | null = null;
-
+  private static instance: Experience;
   public canvas!: HTMLCanvasElement;
   public debugUi!: DebugUi;
   public statsPanel!: StatsPanel;

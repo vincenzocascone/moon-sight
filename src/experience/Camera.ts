@@ -7,13 +7,39 @@ interface CameraConfig {
 }
 
 export default class Camera {
-  private _config: CameraConfig;
-  instance: THREE.PerspectiveCamera;
+  public instance!: THREE.PerspectiveCamera;
+  private config: CameraConfig;
 
-  constructor(config: CameraConfig = { parallaxFactor: 0.005 }) {
+  public constructor(config: CameraConfig = { parallaxFactor: 0.005 }) {
+    this.config = config;
+
+    this.setInstance();
+  }
+
+  public resize() {
     const { viewportManager } = Experience.getInstance();
 
-    this._config = config;
+    this.instance.aspect =
+      viewportManager.size.width / viewportManager.size.height;
+    this.instance.updateProjectionMatrix();
+  }
+
+  public update() {
+    const { timeManager, cursorManager, viewportManager } =
+      Experience.getInstance();
+
+    if (!viewportManager.isMobile) {
+      this.instance.position.x +=
+        (cursorManager.position.x - this.instance.position.x) *
+        this.config.parallaxFactor *
+        timeManager.delta;
+    }
+
+    this.instance.lookAt(new THREE.Vector3(0, 0, 0));
+  }
+
+  private setInstance() {
+    const { scene, viewportManager } = Experience.getInstance();
 
     this.instance = new THREE.PerspectiveCamera(
       45,
@@ -22,35 +48,7 @@ export default class Camera {
       100
     );
 
-    this.setInstance();
-  }
-
-  private setInstance() {
-    const { scene } = Experience.getInstance();
-
     this.instance.position.z = 10;
     scene.add(this.instance);
-  }
-
-  resize() {
-    const { viewportManager } = Experience.getInstance();
-
-    this.instance.aspect =
-      viewportManager.size.width / viewportManager.size.height;
-    this.instance.updateProjectionMatrix();
-  }
-
-  update() {
-    const { timeManager, cursorManager, viewportManager } =
-      Experience.getInstance();
-
-    if (!viewportManager.isMobile) {
-      this.instance.position.x +=
-        (cursorManager.position.x - this.instance.position.x) *
-        this._config.parallaxFactor *
-        timeManager.delta;
-    }
-
-    this.instance.lookAt(new THREE.Vector3(0, 0, 0));
   }
 }

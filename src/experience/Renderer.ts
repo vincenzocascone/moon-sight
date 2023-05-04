@@ -3,9 +3,9 @@ import * as THREE from "three";
 import Experience from "./Experience";
 
 export default class Renderer {
-  instance: THREE.WebGL1Renderer;
+  public instance: THREE.WebGL1Renderer;
 
-  constructor() {
+  public constructor() {
     const { canvas } = Experience.getInstance();
 
     this.instance = new THREE.WebGL1Renderer({
@@ -16,7 +16,7 @@ export default class Renderer {
     this.resize();
   }
 
-  resize(): void {
+  public resize(): void {
     const { viewportManager } = Experience.getInstance();
 
     this.instance.setSize(
@@ -26,7 +26,7 @@ export default class Renderer {
     this.instance.setPixelRatio(viewportManager.pixelRatio);
   }
 
-  update(): void {
+  public update(): void {
     const { scene, camera } = Experience.getInstance();
     this.instance.render(scene, camera.instance);
   }

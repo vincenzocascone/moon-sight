@@ -4,9 +4,10 @@ export enum PanelType {
   FPS = 0,
   MS = 1,
 }
+
 interface StatsPanelConfig {
-  panelType?: PanelType;
-  devHash?: string;
+  panelType: PanelType;
+  devHash: string;
 }
 
 export default class StatsPanel {
@@ -23,7 +24,7 @@ export default class StatsPanel {
 
     if (this.active) {
       this.instance = new StatsJS();
-      this.instance.showPanel(this.config.panelType || PanelType.FPS);
+      this.instance.showPanel(this.config.panelType);
       document.body.appendChild(this.instance.dom);
     }
   }

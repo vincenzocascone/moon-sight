@@ -2,6 +2,7 @@ import gsap from "gsap";
 import * as THREE from "three";
 import { FontLoader } from "three/examples/jsm/loaders/FontLoader";
 
+import DevConsole from "./DevConsole";
 import EventEmitter from "./EventEmitter";
 import Experience from "../Experience";
 
@@ -28,20 +29,20 @@ interface ResourcesManagerConfig {
 
 export default class ResourcesManager extends EventEmitter {
   public readonly items: Record<string, any>;
-  private readonly _loaderElement: HTMLElement | null = null;
-  private _config: ResourcesManagerConfig;
-  private _overlay!: THREE.Mesh;
-  private _loaders!: Loaders;
+  private readonly loaderElement?: HTMLElement;
+  private config: ResourcesManagerConfig;
+  private overlay!: THREE.Mesh;
+  private loaders!: Loaders;
 
   public constructor(config: { sources: Source[]; loaderElementId?: string }) {
     super();
 
-    this._config = config;
+    this.config = config;
 
-    if (this._config.loaderElementId) {
-      this._loaderElement = document.getElementById(
-        this._config.loaderElementId
-      );
+    if (this.config.loaderElementId) {
+      this.loaderElement = document.getElementById(
+        this.config.loaderElementId
+      )!;
     }
 
     this.items = {};
@@ -58,9 +59,9 @@ export default class ResourcesManager extends EventEmitter {
       color: 0x000000,
       transparent: true,
     });
-    this._overlay = new THREE.Mesh(overlayGeometry, overlayMaterial);
-    this._overlay.position.z = camera.instance.position.z - 0.4;
-    scene.add(this._overlay);
+    this.overlay = new THREE.Mesh(overlayGeometry, overlayMaterial);
+    this.overlay.position.z = camera.instance.position.z - 0.4;
+    scene.add(this.overlay);
   }
 
   private setLoaders() {
@@ -70,22 +71,22 @@ export default class ResourcesManager extends EventEmitter {
       () => {
         this.trigger("ready");
 
-        gsap.to(this._overlay.material, { duration: 3, opacity: 0, delay: 1 });
+        gsap.to(this.overlay.material, { duration: 3, opacity: 0, delay: 1 });
 
         gsap.delayedCall(1, () => {
-          if (this._loaderElement) {
-            this._loaderElement.classList.add("ended");
-            this._loaderElement.style.transform = "";
+          if (this.loaderElement) {
+            this.loaderElement.classList.add("ended");
+            this.loaderElement.style.transform = "";
           }
-          scene.remove(this._overlay);
+          scene.remove(this.overlay);
         });
       },
       (itemUrl, itemsLoaded, itemsTotal) => {
-        console.log(
+        DevConsole.log(
           `Loading file: ${itemUrl}. Loaded ${itemsLoaded} of ${itemsTotal}`
         );
-        if (this._loaderElement) {
-          this._loaderElement.style.transform = `scaleX(${
+        if (this.loaderElement) {
+          this.loaderElement.style.transform = `scaleX(${
             itemsLoaded / itemsTotal
           })`;
         }
@@ -95,20 +96,20 @@ export default class ResourcesManager extends EventEmitter {
       }
     );
 
-    this._loaders = {
+    this.loaders = {
       textureLoader: new THREE.TextureLoader(loadingManager),
       fontLoader: new FontLoader(loadingManager),
     };
   }
 
   private startLoading() {
-    for (const source of this._config.sources) {
+    for (const source of this.config.sources) {
       if (source.type === SourceType.Texture) {
-        this._loaders.textureLoader.load(source.path, (file) => {
+        this.loaders.textureLoader.load(source.path, (file) => {
           this.sourceLoaded(source, file);
         });
       } else if (source.type === SourceType.Font) {
-        this._loaders.fontLoader.load(source.path, (file) => {
+        this.loaders.fontLoader.load(source.path, (file) => {
           this.sourceLoaded(source, file);
         });
       }

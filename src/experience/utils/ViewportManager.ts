@@ -2,22 +2,27 @@ import { Vector2 } from "three";
 
 import EventEmitter from "./EventEmitter";
 
+interface ViewportManagerConfig {
+  fullscreenButtonElementId?: string;
+}
+
 export default class ViewportManager extends EventEmitter {
   public size: Vector2;
   public pixelRatio: number;
   public isVisible: boolean;
   public isMobile: boolean;
-  private readonly _fullscreenButtonElement: HTMLElement | null = null;
+  private readonly fullscreenButtonElement?: HTMLElement;
+  private config: ViewportManagerConfig;
 
-  public constructor(options: { fullscreenButtonElementId?: string }) {
+  public constructor(config: ViewportManagerConfig = {}) {
     super();
 
-    const { fullscreenButtonElementId } = options;
+    this.config = config;
 
-    if (fullscreenButtonElementId) {
-      this._fullscreenButtonElement = document.getElementById(
-        fullscreenButtonElementId
-      );
+    if (this.config?.fullscreenButtonElementId) {
+      this.fullscreenButtonElement = document.getElementById(
+        this.config.fullscreenButtonElementId
+      )!;
     }
 
     this.size = new Vector2(window.innerWidth, window.innerHeight);
@@ -37,7 +42,7 @@ export default class ViewportManager extends EventEmitter {
       this.trigger("resize");
     });
 
-    this._fullscreenButtonElement?.addEventListener("click", () =>
+    this.fullscreenButtonElement?.addEventListener("click", () =>
       this.toggleFullscreen()
     );
 
@@ -70,14 +75,14 @@ export default class ViewportManager extends EventEmitter {
   }
 
   private updateFullscreenButton(): void {
-    if (this._fullscreenButtonElement) {
+    if (this.fullscreenButtonElement) {
       const fullscreenElement =
         document.fullscreenElement || (document as any).webkitFullscreenElement;
 
       if (!fullscreenElement) {
-        this._fullscreenButtonElement.innerHTML = "fullscreen";
+        this.fullscreenButtonElement.innerHTML = "fullscreen";
       } else {
-        this._fullscreenButtonElement.innerHTML = "fullscreen_exit";
+        this.fullscreenButtonElement.innerHTML = "fullscreen_exit";
       }
     }
   }

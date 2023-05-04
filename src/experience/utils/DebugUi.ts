@@ -1,8 +1,8 @@
 import GUI from "lil-gui";
 
 interface DebugUiConfig {
-  width?: number;
-  devHash?: string;
+  width: number;
+  devHash: string;
 }
 
 export default class DebugUi {
@@ -10,13 +10,13 @@ export default class DebugUi {
   public ui!: GUI;
   private config: DebugUiConfig;
 
-  public constructor(config: DebugUiConfig = {}) {
+  public constructor(config: DebugUiConfig = { width: 300, devHash: "#dev" }) {
     this.config = config;
 
     this.active = window.location.hash === this.config.devHash;
 
     if (this.active) {
-      this.ui = new GUI({ width: this.config.width || 300 });
+      this.ui = new GUI({ width: this.config.width });
     }
   }
 }
