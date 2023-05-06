@@ -21,12 +21,7 @@ export default class MoonData extends EventEmitter {
   public constructor() {
     super();
 
-    this.currentDate = {
-      year: dayjs().year(),
-      month: dayjs().month() + 1,
-      day: dayjs().date(),
-    };
-
+    this.currentDate = this.getCurrentDate();
     this.updateData();
     this.setDebug();
   }
@@ -64,6 +59,14 @@ export default class MoonData extends EventEmitter {
     this.getPhaseName();
     this.getRotationDegrees();
     this.getFullDate();
+  }
+
+  private getCurrentDate(): CurrentDate {
+    return {
+      year: dayjs().year(),
+      month: dayjs().month() + 1,
+      day: dayjs().date(),
+    };
   }
 
   private setDebug(): void {

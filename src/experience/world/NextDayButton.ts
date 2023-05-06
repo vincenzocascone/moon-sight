@@ -16,7 +16,7 @@ export default class NextDayButton extends EventEmitter {
     this.setGeometry();
     this.setMaterial();
     this.setMesh();
-    this.setListener();
+    this.registerListener();
     this.resize();
   }
 
@@ -76,7 +76,7 @@ export default class NextDayButton extends EventEmitter {
     scene.add(this.mesh);
   }
 
-  private setListener() {
+  private registerListener() {
     const { raycaster, camera } = Experience.getInstance();
 
     window.addEventListener("keyup", (event: KeyboardEvent) => {
@@ -95,7 +95,6 @@ export default class NextDayButton extends EventEmitter {
       }
     });
 
-    // Mobile swipe
     let touchStartX = 0;
     let touchEndX = 0;
     window.addEventListener("touchstart", (event: TouchEvent) => {

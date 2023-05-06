@@ -36,7 +36,6 @@ The Moon Sight application consists of several key components:
 
 ## Tasks
 
-- Refactor class syntax
 - Add GesturesManager
 - Improve World Classes
 - Final Review

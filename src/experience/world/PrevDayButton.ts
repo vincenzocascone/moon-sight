@@ -16,7 +16,7 @@ export default class PrevDayButton extends EventEmitter {
     this.setGeometry();
     this.setMaterial();
     this.setMesh();
-    this.setListener();
+    this.registerListener();
     this.resize();
   }
 
@@ -75,16 +75,14 @@ export default class PrevDayButton extends EventEmitter {
     scene.add(this.mesh);
   }
 
-  private setListener(): void {
+  private registerListener(): void {
     const { camera, raycaster } = Experience.getInstance();
-    // Arrow keys
     window.addEventListener("keyup", (event: KeyboardEvent) => {
       if (event.key == "ArrowLeft") {
         this.prevDay();
       }
     });
 
-    // Click on arrows
     window.addEventListener("click", (event: MouseEvent) => {
       const pointer = new THREE.Vector2();
       pointer.x = (event.clientX / window.innerWidth) * 2 - 1;
@@ -95,7 +93,6 @@ export default class PrevDayButton extends EventEmitter {
       }
     });
 
-    // Mobile swipe
     let touchStartX = 0;
     let touchEndX = 0;
     window.addEventListener("touchstart", (event: TouchEvent) => {
