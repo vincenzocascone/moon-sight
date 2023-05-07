@@ -1,4 +1,5 @@
 import gsap from "gsap";
+import Hammer from "hammerjs";
 import * as THREE from "three";
 import { TextGeometry } from "three/examples/jsm/geometries/TextGeometry.js";
 
@@ -95,14 +96,9 @@ export default class NextDayButton extends EventEmitter {
       }
     });
 
-    let touchStartX = 0;
-    let touchEndX = 0;
-    window.addEventListener("touchstart", (event: TouchEvent) => {
-      touchStartX = event.changedTouches[0]?.screenX ?? 0;
-    });
-    window.addEventListener("touchend", (event: TouchEvent) => {
-      touchEndX = event.changedTouches[0]?.screenX ?? 0;
-      if (touchEndX < touchStartX) {
+    const hammertime = new Hammer(document.body);
+    hammertime.on("swipe", (event) => {
+      if (event.direction == 2) {
         this.nextDay();
       }
     });
