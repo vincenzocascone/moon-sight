@@ -9,7 +9,7 @@ interface CurrentDate {
   day: number;
 }
 
-export default class MoonData extends EventEmitter {
+export default class PhaseManager extends EventEmitter {
   public daysIntoCycle!: number;
   public phaseName!: string;
   public prevPhaseName!: string;

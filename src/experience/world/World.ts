@@ -1,8 +1,8 @@
 import DateText from "./DateText";
 import Environment from "./Environment";
 import Moon from "./Moon";
-import MoonData from "./MoonData";
 import NextDayButton from "./NextDayButton";
+import PhaseManager from "./PhaseManager";
 import PhaseText from "./PhaseText";
 import PrevDayButton from "./PrevDayButton";
 import Stars from "./Stars";
@@ -10,7 +10,7 @@ import Experience from "../Experience";
 
 export default class World {
   private static instance: World;
-  public moonData!: MoonData;
+  public moonData!: PhaseManager;
   public moon!: Moon;
   public phaseText!: PhaseText;
   public dateText!: DateText;
@@ -27,7 +27,7 @@ export default class World {
 
     const { resourcesManager } = Experience.getInstance();
 
-    this.moonData = new MoonData();
+    this.moonData = new PhaseManager();
 
     resourcesManager.on("ready", () => {
       this.moon = new Moon();
