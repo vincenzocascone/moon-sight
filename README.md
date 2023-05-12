@@ -41,3 +41,4 @@ The Moon Sight application consists of several key components:
 ## Ideas
 
 - loader svg animation
+- particles on phase change
