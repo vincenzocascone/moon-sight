@@ -26,7 +26,6 @@
   },
   "dependencies": {
     "@types/hammerjs": "^2.0.41",
-    "@vercel/analytics": "^1.0.0",
     "dayjs": "^1.11.7",
     "gsap": "^3.11.5",
     "hammerjs": "^2.0.8",
