@@ -1,4 +1,4 @@
-Here are some of the files of the project as examples:
+Here are the main files of the project:
 
 Experience.ts file:
 
