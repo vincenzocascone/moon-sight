@@ -382,27 +382,33 @@ export default class World {
   }
 
   public resize(): void {
-    this.phaseText.resize();
-    this.dateText.resize();
-    this.moon.resize();
-    this.prevDayButton.resize();
-    this.nextDayButton.resize();
+    this.phaseText?.resize();
+    this.dateText?.resize();
+    this.moon?.resize();
+    this.prevDayButton?.resize();
+    this.nextDayButton?.resize();
   }
 
   private updateData(): void {
-    this.phaseText.updateData();
-    this.environment.updateData();
-    this.dateText.updateData();
+    this.phaseText?.updateData();
+    this.environment?.updateData();
+    this.dateText?.updateData();
   }
 
   private nextDay(): void {
-    this.moonData.nextDay();
+    this.moonData?.nextDay();
     this.updateData();
   }
 
   private prevDay(): void {
-    this.moonData.prevDay();
+    this.moonData?.prevDay();
     this.updateData();
   }
 }
+```
+
+PhaseText.ts file:
+
+```typescript
+[](../src/experience/world/PhaseText.ts)
 ```
