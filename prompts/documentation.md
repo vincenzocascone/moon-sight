@@ -1,3 +1,5 @@
+Here is the documentation of the project:
+
 # Moon Sight
 
 Moon Sight is a web application that displays a 3D model of the moon in its current phase and gives the possibility to change the date while updating the model.
