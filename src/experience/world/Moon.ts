@@ -1,15 +1,16 @@
+import type { GUI } from "lil-gui";
 import * as THREE from "three";
 
 import Experience from "../Experience";
 
 export default class Moon {
-  private debugFolder: any;
   private geometry!: THREE.SphereGeometry;
   private material!: THREE.MeshStandardMaterial;
   private mesh!: THREE.Mesh;
+  private debugFolder?: GUI;
 
   public constructor() {
-    this.setDebug();
+    this.setDebugFolder();
     this.setGeometry();
     this.setMaterial();
     this.setMesh();
@@ -28,7 +29,7 @@ export default class Moon {
     }
   }
 
-  private setDebug(): void {
+  private setDebugFolder(): void {
     const { debugUi } = Experience.getInstance();
 
     if (debugUi.active) {
@@ -53,7 +54,7 @@ export default class Moon {
       bumpMap: textures.bump,
     });
 
-    this.material.bumpScale = 0.04;
+    this.material.bumpScale = 0.06;
 
     this.debugFolder
       ?.add(this.material, "bumpScale")

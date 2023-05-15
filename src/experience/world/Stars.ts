@@ -16,22 +16,22 @@ export default class Stars {
   private setGeometry(): void {
     this.geometry = new THREE.BufferGeometry();
 
-    const vertices = new Float32Array(15000);
-    const colors = new Float32Array(15000);
+    const vertices = new Float32Array(21000);
+    const colors = new Float32Array(21000);
 
-    for (let i = 0; i < 15000; i++) {
+    for (let i = 0; i < 21000; i++) {
       const i3 = i * 3;
       const x = i3 + 0;
       const y = i3 + 1;
       const z = i3 + 2;
 
-      vertices[x] = (Math.random() - 0.5) * 70;
+      vertices[x] = (Math.random() - 0.5) * 90;
       colors[x] = 0.8 + Math.random() * 0.2;
 
-      vertices[y] = (Math.random() - 0.5) * 32;
+      vertices[y] = (Math.random() - 0.5) * 40;
       colors[y] = 0.8 + Math.random() * 0.2;
 
-      vertices[z] = (Math.random() - 0.5) * 32 - 20;
+      vertices[z] = (Math.random() - 0.5) * 32 - 30;
       colors[z] = 0.8 + Math.random() * 0.2;
     }
 

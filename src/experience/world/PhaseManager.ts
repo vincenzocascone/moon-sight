@@ -1,4 +1,5 @@
 import dayjs from "dayjs";
+import type { GUI } from "lil-gui";
 
 import Experience from "../Experience";
 import EventEmitter from "../utils/EventEmitter";
@@ -16,14 +17,14 @@ export default class PhaseManager extends EventEmitter {
   public rotationDegrees!: number;
   public fullDate!: string;
   private currentDate: CurrentDate;
-  private debugFolder: any;
+  private debugFolder?: GUI;
 
   public constructor() {
     super();
 
     this.currentDate = this.getCurrentDate();
     this.updateData();
-    this.setDebug();
+    this.setDebugFolder();
   }
 
   public nextDay(): void {
@@ -69,7 +70,7 @@ export default class PhaseManager extends EventEmitter {
     };
   }
 
-  private setDebug(): void {
+  private setDebugFolder(): void {
     const { debugUi } = Experience.getInstance();
 
     if (debugUi.active) {

@@ -1,16 +1,17 @@
 import gsap from "gsap";
+import type { GUI } from "lil-gui";
 import * as THREE from "three";
 
 import World from "./World";
 import Experience from "../Experience";
 
 export default class Environment {
-  private debugFolder: any;
   private ambientLight!: THREE.AmbientLight;
   private sunLight!: THREE.DirectionalLight;
+  private debugFolder?: GUI;
 
   public constructor() {
-    this.setDebug();
+    this.setDebugFolder();
     this.setAmbientLight();
     this.setSunLight();
     this.setSunLightPosition();
@@ -29,7 +30,7 @@ export default class Environment {
     });
   }
 
-  private setDebug(): void {
+  private setDebugFolder(): void {
     const { debugUi } = Experience.getInstance();
 
     if (debugUi.active) {
