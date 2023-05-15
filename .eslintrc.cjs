@@ -16,7 +16,6 @@ module.exports = {
   },
   plugins: ["@typescript-eslint", "import"],
   rules: {
-    // "@typescript-eslint/ban-ts-comment": "off",
     "import/order": [
       "error",
       {
