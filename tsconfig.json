@@ -22,7 +22,7 @@
     "noUnusedLocals": true,
     "noUnusedParameters": true,
     "strict": true,
-    "verbatimModuleSyntax": true
+    "importsNotUsedAsValues": "error"
   },
   "include": ["src"]
 }
