@@ -1,4 +1,4 @@
-import { Source } from "./utils/ResourcesManager";
+import type { Source } from "./utils/ResourcesManager";
 
 export default [
   {
