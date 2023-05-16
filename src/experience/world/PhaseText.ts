@@ -62,11 +62,11 @@ export default class PhaseText {
       font: resourcesManager.items.text,
       size: 0.8,
       height: 0.2,
-      curveSegments: 6,
+      curveSegments: 8,
       bevelEnabled: true,
-      bevelThickness: 0.03,
+      bevelThickness: 0.05,
       bevelSize: 0.02,
-      bevelSegments: 3,
+      bevelSegments: 4,
     });
 
     this.geometry.center();

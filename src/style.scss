@@ -23,7 +23,7 @@ body {
   }
 
   .icon-button {
-    @apply w-6 h-6 z-10 fixed cursor-pointer text-white text-2xl select-none flex items-center justify-center;
+    @apply w-6 h-6 z-10 fixed cursor-pointer text-neutral-500 transition-colors hover:text-white text-2xl select-none flex items-center justify-center;
 
     &.icon-button--bottom-right {
       @apply bottom-5 right-5;
@@ -31,6 +31,10 @@ body {
 
     &.icon-button--top-right {
       @apply top-5 right-5;
+    }
+
+    img {
+      @apply opacity-30 hover:opacity-100 transition-opacity;
     }
   }
 }
