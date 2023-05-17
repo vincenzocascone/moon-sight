@@ -8,14 +8,14 @@ html {
 }
 
 body {
-  @apply bg-black h-full w-full;
+  @apply h-full w-full bg-black;
 
   #main-canvas {
-    @apply w-full h-full outline-none;
+    @apply h-full w-full outline-none;
   }
 
   #loading-bar {
-    @apply absolute top-1/2 w-full h-1 bg-white transform scale-x-0 origin-top-left transition-transform duration-100;
+    @apply absolute top-1/2 h-1 w-full origin-top-left scale-x-0 transform bg-white transition-transform duration-100;
 
     &.ended {
       @apply origin-top-right transition-transform duration-150 ease-in-out;
@@ -23,18 +23,18 @@ body {
   }
 
   .icon-button {
-    @apply w-6 h-6 z-10 fixed cursor-pointer text-neutral-500 transition-colors hover:text-white text-2xl select-none flex items-center justify-center;
+    @apply fixed z-10 flex h-6 w-6 cursor-pointer select-none items-center justify-center text-2xl text-neutral-500 transition-colors hover:text-white;
 
     &.icon-button--bottom-right {
       @apply bottom-5 right-5;
     }
 
     &.icon-button--top-right {
-      @apply top-5 right-5;
+      @apply right-5 top-5;
     }
 
     img {
-      @apply opacity-30 hover:opacity-100 transition-opacity;
+      @apply opacity-30 transition-opacity hover:opacity-100;
     }
   }
 }
