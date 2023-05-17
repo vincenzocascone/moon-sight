@@ -1,5 +1,47 @@
 Here are the main files of the project:
 
+package.json file:
+```json
+{
+  "name": "moon-sight",
+  "private": true,
+  "version": "1.1",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc && vite build",
+    "preview": "vite preview"
+  },
+  "devDependencies": {
+    "@types/node": "^18.15.11",
+    "@types/three": "^0.150.2",
+    "@typescript-eslint/eslint-plugin": "^5.59.0",
+    "@typescript-eslint/parser": "^5.59.0",
+    "autoprefixer": "^10.4.14",
+    "eslint": "^8.38.0",
+    "eslint-config-prettier": "^8.8.0",
+    "eslint-plugin-import": "^2.27.5",
+    "postcss": "^8.4.22",
+    "prettier": "^2.8.7",
+    "prettier-plugin-tailwindcss": "^0.3.0",
+    "sass": "^1.62.0",
+    "tailwindcss": "^3.3.1",
+    "typescript": "^4.9.3",
+    "vite": "^4.2.0"
+  },
+  "dependencies": {
+    "@types/hammerjs": "^2.0.41",
+    "dayjs": "^1.11.7",
+    "gsap": "^3.11.5",
+    "hammerjs": "^2.0.8",
+    "lil-gui": "^0.18.1",
+    "postprocessing": "^6.31.0",
+    "stats.js": "^0.17.0",
+    "three": "^0.151.3"
+  }
+}
+```
+
 Experience.ts file:
 
 ```typescript

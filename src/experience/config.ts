@@ -8,7 +8,6 @@ export default {
   },
   utils: {
     viewportManager: {
-      fullscreenButtonElementId: "fullscreen-button",
       fullscreenSupport: true,
     },
     resourcesManager: {

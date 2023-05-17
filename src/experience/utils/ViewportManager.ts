@@ -1,9 +1,9 @@
+import Hammer from "hammerjs";
 import { Vector2 } from "three";
 
 import EventEmitter from "./EventEmitter";
 
 interface ViewportManagerConfig {
-  fullscreenButtonElementId?: string;
   fullscreenSupport?: boolean;
 }
 
@@ -12,7 +12,6 @@ export default class ViewportManager extends EventEmitter {
   public pixelRatio: number;
   public isVisible: boolean;
   public isMobile: boolean;
-  private readonly fullscreenButtonElement?: HTMLElement;
   private config: ViewportManagerConfig;
 
   public constructor(
@@ -21,12 +20,6 @@ export default class ViewportManager extends EventEmitter {
     super();
 
     this.config = config;
-
-    if (this.config?.fullscreenButtonElementId) {
-      this.fullscreenButtonElement = document.getElementById(
-        this.config.fullscreenButtonElementId
-      )!;
-    }
 
     this.size = new Vector2(window.innerWidth, window.innerHeight);
     this.pixelRatio = Math.min(window.devicePixelRatio, 2);
@@ -55,16 +48,13 @@ export default class ViewportManager extends EventEmitter {
           this.toggleFullscreen();
         }
       });
+    }
 
-      if (this.fullscreenButtonElement) {
-        this.fullscreenButtonElement.addEventListener("click", () =>
-          this.toggleFullscreen()
-        );
-
-        document.addEventListener("fullscreenchange", () =>
-          this.updateFullscreenButton()
-        );
-      }
+    if (this.isMobile) {
+      const hammertime = new Hammer(document.body);
+      hammertime.on("tap", (event: any) => {
+        if (event.tapCount == 2) this.toggleFullscreen();
+      });
     }
   }
 
@@ -83,19 +73,6 @@ export default class ViewportManager extends EventEmitter {
         document.exitFullscreen().finally();
       } else if ((document as any).webkitExitFullscreen) {
         (document as any).webkitExitFullscreen();
-      }
-    }
-  }
-
-  private updateFullscreenButton(): void {
-    if (this.fullscreenButtonElement) {
-      const fullscreenElement =
-        document.fullscreenElement || (document as any).webkitFullscreenElement;
-
-      if (!fullscreenElement) {
-        this.fullscreenButtonElement.innerHTML = "fullscreen";
-      } else {
-        this.fullscreenButtonElement.innerHTML = "fullscreen_exit";
       }
     }
   }

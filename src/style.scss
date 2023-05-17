@@ -23,18 +23,10 @@ body {
   }
 
   .icon-button {
-    @apply fixed z-10 flex h-6 w-6 cursor-pointer select-none items-center justify-center text-2xl text-neutral-500 transition-colors hover:text-white;
+    @apply fixed z-10 flex h-6 w-6 cursor-pointer select-none items-center justify-center opacity-10 transition-opacity duration-300 hover:opacity-100;
 
     &.icon-button--bottom-right {
       @apply bottom-5 right-5;
-    }
-
-    &.icon-button--top-right {
-      @apply right-5 top-5;
-    }
-
-    img {
-      @apply opacity-30 transition-opacity hover:opacity-100;
     }
   }
 }
