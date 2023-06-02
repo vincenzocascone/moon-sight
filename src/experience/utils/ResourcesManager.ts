@@ -4,7 +4,6 @@ import { FontLoader } from "three/examples/jsm/loaders/FontLoader";
 
 import DevConsole from "./DevConsole";
 import EventEmitter from "./EventEmitter";
-import Experience from "../Experience";
 
 export enum SourceType {
   Texture = "texture",
@@ -24,14 +23,15 @@ interface Loaders {
 
 interface ResourcesManagerConfig {
   sources: Source[];
-  loaderElementId?: string;
+  loadingPercentageElementId?: string;
+  loadingOverlayElementId?: string;
 }
 
 export default class ResourcesManager extends EventEmitter {
   public readonly items: Record<string, any>;
-  private readonly loaderElement?: HTMLElement;
+  private readonly loadingPercentageElement?: HTMLElement;
+  private readonly loadingOverlayElement?: HTMLElement;
   private config: ResourcesManagerConfig;
-  private overlay!: THREE.Mesh;
   private loaders!: Loaders;
 
   public constructor(config: { sources: Source[]; loaderElementId?: string }) {
@@ -39,56 +39,54 @@ export default class ResourcesManager extends EventEmitter {
 
     this.config = config;
 
-    if (this.config.loaderElementId) {
-      this.loaderElement = document.getElementById(
-        this.config.loaderElementId
+    this.items = {};
+
+    if (this.config.loadingPercentageElementId) {
+      this.loadingPercentageElement = document.getElementById(
+        this.config.loadingPercentageElementId
       )!;
     }
 
-    this.items = {};
+    if (this.config.loadingOverlayElementId) {
+      this.loadingOverlayElement = document.getElementById(
+        this.config.loadingOverlayElementId
+      )!;
+    }
 
-    this.setOverlay();
     this.setLoaders();
     this.startLoading();
   }
 
-  private setOverlay() {
-    const { camera, scene } = Experience.getInstance();
-    const overlayGeometry = new THREE.PlaneGeometry(100, 100);
-    const overlayMaterial = new THREE.MeshBasicMaterial({
-      color: 0x000000,
-      transparent: true,
-    });
-    this.overlay = new THREE.Mesh(overlayGeometry, overlayMaterial);
-    this.overlay.position.z = camera.instance.position.z - 0.4;
-    scene.add(this.overlay);
-  }
-
   private setLoaders() {
-    const { scene } = Experience.getInstance();
-
     const loadingManager = new THREE.LoadingManager(
       () => {
         this.trigger("ready");
 
-        gsap.to(this.overlay.material, { duration: 3, opacity: 0, delay: 1 });
-
-        gsap.delayedCall(1, () => {
-          if (this.loaderElement) {
-            this.loaderElement.classList.add("ended");
-            this.loaderElement.style.transform = "";
-          }
-          scene.remove(this.overlay);
-        });
+        if (this.loadingOverlayElement) {
+          gsap.to(this.loadingOverlayElement, {
+            duration: 2,
+            opacity: 0,
+            onComplete: () => {
+              this.loadingOverlayElement!.remove();
+            },
+          });
+        }
       },
-      (itemUrl, itemsLoaded, itemsTotal) => {
+      async (itemUrl, itemsLoaded, itemsTotal) => {
         DevConsole.log(
           `Loading file: ${itemUrl}. Loaded ${itemsLoaded} of ${itemsTotal}`
         );
-        if (this.loaderElement) {
-          this.loaderElement.style.transform = `scaleX(${
-            itemsLoaded / itemsTotal
-          })`;
+
+        if (this.loadingPercentageElement) {
+          let displayedPercentage =
+            parseInt(this.loadingPercentageElement.innerHTML) || 0;
+          const realPercentage = Math.round((itemsLoaded / itemsTotal) * 100);
+
+          while (displayedPercentage < realPercentage) {
+            displayedPercentage += 1;
+            this.loadingPercentageElement.innerHTML = `${displayedPercentage}%`;
+            await new Promise((resolve) => setTimeout(resolve, 1));
+          }
         }
       },
       (error) => {

@@ -14,11 +14,20 @@ body {
     @apply h-full w-full outline-none;
   }
 
-  #loading-bar {
-    @apply absolute top-1/2 h-1 w-full origin-top-left scale-x-0 transform bg-white transition-transform duration-100;
+  #loading-overlay {
+    @apply fixed inset-0 z-20 flex flex-col items-center justify-center  bg-black;
 
-    &.ended {
-      @apply origin-top-right transition-transform duration-150 ease-in-out;
+    .loader {
+      @apply h-24 w-24;
+
+      img {
+        @apply object-cover;
+      }
+    }
+
+    #loading-percentage {
+      font-family: "Play", sans-serif;
+      @apply text-2xl text-white;
     }
   }
 

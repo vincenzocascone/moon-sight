@@ -14,11 +14,21 @@
     />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="icon" href="/favicon.ico" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Play&display=swap" rel="stylesheet">
     <title>Moon Sight</title>
   </head>
   <body>
     <canvas id="main-canvas"></canvas>
-    <div id="loading-bar"></div>
+
+    <div id="loading-overlay">
+      <div class="loader">
+        <img src="/images/loader.png" alt="" />
+      </div>
+      <div id="loading-percentage"></div>
+    </div>
+
     <a
       class="icon-button icon-button--bottom-right"
       href="https://github.com/vincenzocascone/moon-sight"

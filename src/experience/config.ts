@@ -11,7 +11,8 @@ export default {
       fullscreenSupport: true,
     },
     resourcesManager: {
-      loaderElementId: "loading-bar",
+      loadingPercentageElementId: "loading-percentage",
+      loadingOverlayElementId: "loading-overlay",
       sources,
     },
     debugUi: {
